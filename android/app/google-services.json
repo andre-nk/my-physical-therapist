@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "250491957782",
+    "project_id": "myphysicaltherapist-1aa1b",
+    "storage_bucket": "myphysicaltherapist-1aa1b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:250491957782:android:bb2b4d6f416217278a3b37",
+        "android_client_info": {
+          "package_name": "com.example.my_physical_therapist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "250491957782-0268f42l2ttv2uqvvovcv7a2puaduit5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.my_physical_therapist",
+            "certificate_hash": "b498206ef76c0b13d56e69b2da083dad13bf32f2"
+          }
+        },
+        {
+          "client_id": "250491957782-keuikkjdiomn7qpd57ndilifsb61ourl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeshoqJ3nxV7dKgp3VwLAeGZ9yQL6BozE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "250491957782-keuikkjdiomn7qpd57ndilifsb61ourl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
