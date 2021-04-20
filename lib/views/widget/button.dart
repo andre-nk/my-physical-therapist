@@ -12,8 +12,8 @@ class Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MQuery.height(0.09, context),
-      width: MQuery.width(0.475, context),
+      height: MQuery.height(0.08, context),
+      width: width ?? MQuery.width(0.45, context),
       child: ElevatedButton(
         onPressed: this.method,
         child: Font.out(

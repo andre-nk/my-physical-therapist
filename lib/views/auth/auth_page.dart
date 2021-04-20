@@ -74,7 +74,7 @@ class _AuthPageState extends State<AuthPage> {
                             padding: EdgeInsets.symmetric(
                                 horizontal: MQuery.width(0.02, context)),
                             child: Font.out(
-                              "atau",
+                              "or",
                               fontSize: 16,
                               fontWeight: FontWeight.w500
                             ),
@@ -91,7 +91,7 @@ class _AuthPageState extends State<AuthPage> {
                       title: "Sign Up with E-mail",
                       color: Palette.primary,
                       method: (){
-                        print("a");
+                        Get.to(() => SignUpPage(), transition: Transition.cupertino);
                       },
                     ),
                     SizedBox(height: MQuery.height(0.04, context)),
@@ -108,7 +108,7 @@ class _AuthPageState extends State<AuthPage> {
                               fontSize: 18,
                               fontWeight: FontWeight.bold),
                           onTap: (){
-                            // Get.to(() => SignInPage(viewModel: authModel), transition: Transition.cupertino);
+                            Get.to(() => SignInPage(), transition: Transition.cupertino);
                           },
                         )
                       ],
