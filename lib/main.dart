@@ -27,6 +27,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: Authenticator(),
+      routes: {
+        '/auth': (context) => AuthPage(),
+        '/home': (context) => Homepage(),
+      },
     );
   }
 }
@@ -39,7 +43,7 @@ class Authenticator extends ConsumerWidget {
     return authStateChanges.when(
       data: (user){
         return user != null
-          ? Text("signed")
+          ? Homepage()
           : AuthPage();
       },
       loading: () => const Scaffold(

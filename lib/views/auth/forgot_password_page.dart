@@ -1,23 +1,21 @@
 part of "../view.dart";
 
-class SignUpPage extends StatefulWidget {
+class ForgotPasswordPage extends StatefulWidget {
   @override
-  _SignUpPageState createState() => _SignUpPageState();
+  _ForgotPasswordPageState createState() => _ForgotPasswordPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   @override
   Widget build(BuildContext context) {
 
     TextEditingController emailController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
 
     return SafeArea(
       child: Consumer(
         builder: (context, watch, _){
           
           final authProvider = watch(authenticationProvider);
-          final userFirestoreProvider = watch(userProvider);
           
           return Scaffold(
             resizeToAvoidBottomInset: true,
@@ -48,7 +46,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           bottom: MQuery.height(0.06, context)
                         ),
                         width: double.infinity,
-                        child: Font.out("Sign up",
+                        child: Font.out("Forgot password?",
                             fontSize: 32,
                             fontWeight: FontWeight.w800,
                             color: Palette.primary,
@@ -56,18 +54,44 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ),
                     Expanded(
-                      flex: 7,
-                      child: LocalForm(
-                        emailController: emailController,
-                        passwordController: passwordController,
-                      ) 
+                      flex: 4,
+                      child: TextFormField(
+                        controller: emailController,
+                        cursorColor: Palette.primary,
+                        style: Font.style(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18,
+                            color: Palette.primary),
+                        decoration: new InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: MQuery.width(0.03, context),
+                            horizontal: MQuery.width(0.03, context),
+                          ),
+                          fillColor: Palette.formColor.withOpacity(0.3),
+                          focusColor: Palette.formColor,
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Palette.secondaryBorder, width: 1.25),
+                              borderRadius: BorderRadius.all(Radius.circular(10))),
+                          enabledBorder: new OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Palette.secondaryBorder, width: 1.25),
+                              borderRadius:BorderRadius.all(Radius.circular(10))),
+                          filled: true,
+                          hintStyle: Font.style(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18,
+                              color: Palette.primary),
+                          hintText: "Fill your e-mail address",
+                        ),
+                      ),
                     ),
                     Expanded(
                       flex: 8,
                       child: Column(
                         children: [
                           Button(
-                            title: "Sign up",
+                            title: "Send reset password link",
                             color: Palette.primary,
                             width: MQuery.width(0.475, context),
                             method: (){
@@ -76,57 +100,39 @@ class _SignUpPageState extends State<SignUpPage> {
                                   SnackBar(
                                     backgroundColor: Palette.secondary,
                                     content: Font.out(
-                                      "Please fill out the e-mail form firstly",
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold
-                                    ),
-                                  )
-                                );
-                              } else if (passwordController.text == "") {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    backgroundColor: Palette.secondary,
-                                    content: Font.out(
-                                      "Please fill out the password form",
+                                      "Please fill out the e-mail to find your account",
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold
                                     ),
                                   )
                                 );
                               } else {
-                                authProvider.signUpWithEmailAndPassword(
-                                  emailController.text, 
-                                  passwordController.text
-                                ).whenComplete(() async {
-                                  if(authProvider.auth.currentUser?.uid != null){
-                                     await userFirestoreProvider.createUserData(
-                                      authProvider.auth.currentUser?.uid ?? "",
-                                      name:  authProvider.auth.currentUser?.displayName ?? ""
+                                authProvider.sendForgotPasswordHelper(
+                                  emailController.text, context,
+                                  SnackBar(
+                                    backgroundColor: Palette.secondary,
+                                    content: Font.out(
+                                        "We're sorry, something wrong is happened",
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold
+                                      ),
+                                    )
+                                  )
+                                  .whenComplete((){
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        backgroundColor: Palette.secondary,
+                                        content: Font.out(
+                                          "The password reset e-mail has been sent to your account",
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold
+                                        ),
+                                      )
                                     );
-                                  }
-                                  Get.offAndToNamed("/home");     
-                                });
+                                    Get.back();
+                                  });
                               }
                             }                   
-                          ),
-                          SizedBox(height: MQuery.height(0.03, context)),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Font.out(
-                                "Have an account?",
-                                fontSize: 18,
-                              ),
-                              InkWell(
-                                child: Font.out(
-                                    " Login!",
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold),
-                                onTap: (){
-                                  Get.to(() => SignInPage(), transition: Transition.cupertino);
-                                },
-                              )
-                            ],
                           ),
                         ],
                       ),

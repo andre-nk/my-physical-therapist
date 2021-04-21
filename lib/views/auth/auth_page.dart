@@ -1,13 +1,10 @@
 part of "../view.dart";
+class AuthPage extends ConsumerWidget {
+  Widget build(BuildContext context, ScopedReader watch) {
+    
+    final authProvider = watch(authenticationProvider);
+    final userFirestoreProvider = watch(userProvider);
 
-class AuthPage extends StatefulWidget {
-  @override
-  _AuthPageState createState() => _AuthPageState();
-}
-
-class _AuthPageState extends State<AuthPage> {
-  @override
-  Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -45,7 +42,17 @@ class _AuthPageState extends State<AuthPage> {
                           ),
                           InkWell(
                             customBorder: CircleBorder(),
-                            onTap: () {},
+                            onTap: () async {
+                              await authProvider.signUpWithGoogle().whenComplete(() async {
+                                if(authProvider.auth.currentUser?.uid != null){
+                                    await userFirestoreProvider.createUserData(
+                                    authProvider.auth.currentUser?.uid ?? "",
+                                    name:  authProvider.auth.currentUser?.displayName ?? ""
+                                  );
+                                }
+                                Get.offAndToNamed("/home");     
+                              });
+                            },
                             child:Image.asset("assets/google.png")
                           ),
                           InkWell(
