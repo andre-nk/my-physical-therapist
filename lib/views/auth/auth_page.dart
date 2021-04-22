@@ -3,7 +3,6 @@ class AuthPage extends ConsumerWidget {
   Widget build(BuildContext context, ScopedReader watch) {
     
     final authProvider = watch(authenticationProvider);
-    final userFirestoreProvider = watch(userProvider);
 
     return SafeArea(
       child: Scaffold(
@@ -38,15 +37,17 @@ class AuthPage extends ConsumerWidget {
                           InkWell(
                             customBorder: CircleBorder(),
                             onTap: () async {
-                              await authProvider.signInWithFacebook().whenComplete(() async{
-                                if(authProvider.auth.currentUser?.uid != null){
-                                  await userFirestoreProvider.createUserData(
-                                    authProvider.auth.currentUser?.uid ?? "",
-                                    name:  authProvider.auth.currentUser?.displayName ?? ""
-                                  );
-                                }
-                                Get.offAndToNamed("/home");  
-                              });
+                              await authProvider.signInWithFacebook(
+                                context,
+                                  SnackBar(
+                                    backgroundColor: Palette.secondary,
+                                    content: Font.out(
+                                      "You've cancel the Facebook sign-in",
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold
+                                    ),
+                                  )
+                              );
                             },
                             child:Image.asset("assets/facebook.png")
                           ),
@@ -54,12 +55,6 @@ class AuthPage extends ConsumerWidget {
                             customBorder: CircleBorder(),
                             onTap: () async {
                               await authProvider.signUpWithGoogle().whenComplete(() async {
-                                if(authProvider.auth.currentUser?.uid != null){
-                                  await userFirestoreProvider.createUserData(
-                                    authProvider.auth.currentUser?.uid ?? "",
-                                    name:  authProvider.auth.currentUser?.displayName ?? ""
-                                  );
-                                }
                                 Get.offAndToNamed("/home");     
                               });
                             },

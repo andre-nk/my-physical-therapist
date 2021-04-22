@@ -95,7 +95,16 @@ class _SignInPageState extends State<SignInPage> {
                               } else {
                                 authProvider.signInWithEmailAndPassword(
                                   emailController.text, 
-                                  passwordController.text
+                                  passwordController.text,
+                                  context,
+                                  SnackBar(
+                                    backgroundColor: Palette.secondary,
+                                    content: Font.out(
+                                      "Something wrong is happened, please retry.",
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold
+                                    ),
+                                  )
                                 ).then((currentUser) => {
                                   Get.offAndToNamed("/home")       
                                 });

@@ -96,7 +96,16 @@ class _SignUpPageState extends State<SignUpPage> {
                               } else {
                                 authProvider.signUpWithEmailAndPassword(
                                   emailController.text, 
-                                  passwordController.text
+                                  passwordController.text,
+                                  context,
+                                  SnackBar(
+                                    backgroundColor: Palette.secondary,
+                                    content: Font.out(
+                                      "Something wrong is happened, please retry.",
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold
+                                    ),
+                                  )
                                 ).whenComplete(() async {
                                   if(authProvider.auth.currentUser?.uid != null){
                                      await userFirestoreProvider.createUserData(

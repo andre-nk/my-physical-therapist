@@ -11,6 +11,22 @@ class _HomepageState extends State<Homepage> {
     return Consumer(builder: (context, watch, _) {
 
       final authProvider = watch(authenticationProvider);
+      final firestoreProvider = watch(firebaseFirestoreProvider);
+      final userFirestoreProvider = watch(userProvider);
+
+      firestoreProvider
+        .collection('users')
+        .doc(authProvider.auth.currentUser?.uid)
+        .get().then((value) async {
+          if(!(value.exists)){
+            await userFirestoreProvider.createUserData(
+              authProvider.auth.currentUser?.uid ?? "",
+              name:  authProvider.auth.currentUser?.displayName ?? ""
+            );
+          } else {
+            print(value.data()?.entries);
+          }
+        });
 
       return SafeArea(
         child: Scaffold(

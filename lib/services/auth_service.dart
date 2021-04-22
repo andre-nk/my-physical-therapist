@@ -10,7 +10,7 @@ class AuthenticationService with ChangeNotifier {
 
   //GOOGLE
   Future<void> signUpWithGoogle() async {
-    try {
+
       isLoading = true;
       notifyListeners();
       GoogleSignInAccount googleUser = (await googleSignIn.signIn())!;
@@ -20,13 +20,7 @@ class AuthenticationService with ChangeNotifier {
       await auth.signInWithCredential(credentials);
       error = null;
       notifyListeners();
-    } catch (e) {
-      error = e;
-      rethrow;
-    } finally {
-      isLoading = false;
-      notifyListeners();
-    }
+    
   }
 
   Future<void> signOutWithGoogle() async {
@@ -48,23 +42,27 @@ class AuthenticationService with ChangeNotifier {
   }
 
   //E-MAIL
-  Future<void> signUpWithEmailAndPassword(String email, String password) async {
+  Future<void> signUpWithEmailAndPassword(String email, String password, BuildContext context, SnackBar snackbar) async {
     isLoading = true;
     notifyListeners();
     await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password)
       .catchError((e){
-        print(e);
+        ScaffoldMessenger.of(context).showSnackBar(
+          snackbar
+        );
       });
     error = null;
     notifyListeners();
   }
 
-  Future<void> signInWithEmailAndPassword(String email, String password) async {
+  Future<void> signInWithEmailAndPassword(String email, String password, BuildContext context, SnackBar snackbar) async {
     isLoading = true;
     notifyListeners();
     await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password)
       .catchError((e){
-        print(e);
+        ScaffoldMessenger.of(context).showSnackBar(
+          snackbar
+        );
       });
     error = null;
     notifyListeners();
@@ -97,7 +95,7 @@ class AuthenticationService with ChangeNotifier {
   }
 
   //FACEBOOK
-  Future<void> signInWithFacebook() async {
+  Future<void> signInWithFacebook(BuildContext context, SnackBar snackbar) async {
     final result = await facebookSignIn.logIn(permissions: [
       FacebookPermission.publicProfile,
       FacebookPermission.email,
@@ -108,10 +106,10 @@ class AuthenticationService with ChangeNotifier {
         await signInWithFacebookHandler(result);
         break;
       case FacebookLoginStatus.cancel:
-        Get.snackbar("title", "cancelled");
+        ScaffoldMessenger.of(context).showSnackBar(snackbar);
         break;
       case FacebookLoginStatus.error:
-        Get.snackbar("title", "error");
+        print(FacebookLoginStatus.error);
         break;
     }
   }
