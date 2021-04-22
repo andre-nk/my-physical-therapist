@@ -37,7 +37,17 @@ class AuthPage extends ConsumerWidget {
                         children: [
                           InkWell(
                             customBorder: CircleBorder(),
-                            onTap: () {},
+                            onTap: () async {
+                              await authProvider.signInWithFacebook().whenComplete(() async{
+                                if(authProvider.auth.currentUser?.uid != null){
+                                  await userFirestoreProvider.createUserData(
+                                    authProvider.auth.currentUser?.uid ?? "",
+                                    name:  authProvider.auth.currentUser?.displayName ?? ""
+                                  );
+                                }
+                                Get.offAndToNamed("/home");  
+                              });
+                            },
                             child:Image.asset("assets/facebook.png")
                           ),
                           InkWell(
@@ -45,7 +55,7 @@ class AuthPage extends ConsumerWidget {
                             onTap: () async {
                               await authProvider.signUpWithGoogle().whenComplete(() async {
                                 if(authProvider.auth.currentUser?.uid != null){
-                                    await userFirestoreProvider.createUserData(
+                                  await userFirestoreProvider.createUserData(
                                     authProvider.auth.currentUser?.uid ?? "",
                                     name:  authProvider.auth.currentUser?.displayName ?? ""
                                   );
