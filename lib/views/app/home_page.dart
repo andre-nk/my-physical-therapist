@@ -1,6 +1,11 @@
 part of "../view.dart";
 
 class HomePage extends StatefulWidget {
+
+  final GlobalKey<ScaffoldState> drawerKey;
+
+  HomePage(this.drawerKey);
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -32,7 +37,12 @@ class _HomePageState extends State<HomePage> {
                             AppBar(
                               leadingWidth: MQuery.width(0.025, context),
                               toolbarHeight: MQuery.height(0.08, context),
-                              leading: Icon(CupertinoIcons.line_horizontal_3, size: 24),
+                              leading: IconButton(
+                                icon : Icon(CupertinoIcons.line_horizontal_3, size: 24),
+                                onPressed: (){
+                                  widget.drawerKey.currentState!.openDrawer();
+                                },
+                              ),
                               actions: [
                                 Container(
                                   margin: EdgeInsets.only(
