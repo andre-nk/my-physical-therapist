@@ -10,4 +10,6 @@ part "auth/auth_page.dart";
 part "auth/sign_in_page.dart";
 part "auth/sign_up_page.dart";
 part "auth/forgot_password_page.dart";
-part "app/homepage.dart";
+part 'app/default_page.dart';
+part 'app/home_page.dart';
+part 'app/dashboard_page.dart';

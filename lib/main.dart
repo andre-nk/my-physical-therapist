@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       home: Authenticator(),
       routes: {
         '/auth': (context) => AuthPage(),
-        '/home': (context) => Homepage(),
+        '/home': (context) => DefaultPage(),
       },
     );
   }
@@ -43,7 +43,7 @@ class Authenticator extends ConsumerWidget {
     return authStateChanges.when(
       data: (user){
         return user != null
-          ? Homepage()
+          ? DefaultPage()
           : AuthPage();
       },
       loading: () => const Scaffold(

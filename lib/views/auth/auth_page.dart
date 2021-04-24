@@ -35,7 +35,6 @@ class AuthPage extends ConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           InkWell(
-                            customBorder: CircleBorder(),
                             onTap: () async {
                               await authProvider.signInWithFacebook(
                                 context,
@@ -52,21 +51,12 @@ class AuthPage extends ConsumerWidget {
                             child:Image.asset("assets/facebook.png")
                           ),
                           InkWell(
-                            customBorder: CircleBorder(),
                             onTap: () async {
                               await authProvider.signUpWithGoogle().whenComplete(() async {
                                 Get.offAndToNamed("/home");     
                               });
                             },
                             child:Image.asset("assets/google.png")
-                          ),
-                          InkWell(
-                            splashColor: Colors.red,
-                            customBorder: CircleBorder(),
-                            onTap: () {
-                              print("a");
-                            },
-                            child:Image.asset("assets/apple.png")
                           ),
                         ],
                       ),
@@ -100,6 +90,7 @@ class AuthPage extends ConsumerWidget {
                       ),
                     ),
                     Button(
+                      width: MQuery.width(0.465, context),
                       title: "Sign Up with E-mail",
                       color: Palette.primary,
                       method: (){
