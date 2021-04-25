@@ -115,7 +115,9 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   child: SubHeadingMore(
                                     title: "Today's exercises",
-                                    callback: (){},
+                                    callback: (){
+                                     
+                                    },
                                   ),
                                 ),
                                 Container(
@@ -144,7 +146,9 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   child: SubHeadingMore(
                                     title: "Today's schedule",
-                                    callback: (){},
+                                    callback: (){
+                                      Get.to(() => EventPage(), transition: Transition.cupertino);
+                                    },
                                   ),
                                 ),
                                 Container(
