@@ -49,8 +49,10 @@ class _HomePageState extends State<HomePage> {
                                     left: 200
                                   ),
                                   child: CircleAvatar(
-                                    radius: 25.0,
-                                    backgroundImage: NetworkImage(authProvider.auth.currentUser!.photoURL ?? ""),
+                                    radius: 22.5,
+                                    child: ClipOval(
+                                      child: Image.network(authProvider.auth.currentUser!.photoURL ?? "", fit: BoxFit.cover,)
+                                    ),
                                     backgroundColor: Palette.secondary,
                                   ),
                                 )
@@ -167,6 +169,15 @@ class _HomePageState extends State<HomePage> {
                                             bottom: MQuery.height(0.025, context)
                                           ),
                                           child: EventTile(
+                                            callback: (){
+                                              Get.to(() => EventItemPage(
+                                                title: "hiyah", 
+                                                speaker: "Acme",
+                                                platform: "Zoom",
+                                                start: DateTime.now(),
+                                                end: DateTime.now(),
+                                              ));
+                                            },
                                             title: "hiyah",
                                             start: DateTime.now(),
                                             end: DateTime.now()

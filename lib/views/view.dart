@@ -1,11 +1,13 @@
 import 'dart:collection';
 
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:my_physical_therapist/configs/configs.dart';
+import 'package:my_physical_therapist/configs/my_physical_therapist_icons.dart';
 import 'package:my_physical_therapist/views/widget/widget.dart';
 import 'package:my_physical_therapist/providers/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -20,3 +22,11 @@ part 'app/default_page.dart';
 part 'app/home_page.dart';
 part 'app/dashboard_page.dart';
 part 'app/event_page.dart';
+part 'app/patient_education_page.dart';
+part 'app/goal_page.dart';
+part 'app/exercises_goal_page.dart';
+part 'app/weight_tracker_page.dart';
+part 'app/pain_scale_page.dart';
+part 'sub_page/patient_education_sub_page.dart';
+part 'sub_page/event_item_page.dart';
+part 'sub_page/exercises_goal_detailed_page.dart';

@@ -48,7 +48,7 @@ class _DefaultPageState extends State<DefaultPage> {
           _selectedIndex = index;
           _pageController.animateToPage(
             index,
-            duration: Duration(milliseconds: 500), curve: Curves.easeOut
+            duration: Duration(milliseconds: 500), curve: Curves.easeInOut
           );
         });
       }
@@ -97,7 +97,6 @@ class _DefaultPageState extends State<DefaultPage> {
                   },
                   enableFeedback: true,
                   leading: Icon(Icons.logout, color: Palette.alert),
-                  trailing: Icon(CupertinoIcons.chevron_right),
                   title: Font.out(
                     "Log out",
                     textAlign: TextAlign.start,
@@ -118,8 +117,8 @@ class _DefaultPageState extends State<DefaultPage> {
             },
             children: <Widget>[
               HomePage(_drawerKey),
-              HomePage(_drawerKey),
-              HomePage(_drawerKey)
+              PatientEducationPage(_drawerKey),
+              GoalPage(_drawerKey),
             ],
           ),
         ),
@@ -137,30 +136,17 @@ class _DefaultPageState extends State<DefaultPage> {
             ),
             BottomNavigationBarItem(
               label: "a", 
-              icon: Icon(Icons.calendar_today_outlined, color: Palette.primary.withOpacity(0.4), size: 24),
-              activeIcon: Icon(Icons.calendar_today_rounded, color: Palette.secondary, size: 24)
+              icon: Icon(CupertinoIcons.book, color: Palette.primary.withOpacity(0.4), size: 24),
+              activeIcon: Icon(CupertinoIcons.book_fill, color: Palette.primary, size: 24)
             ),
             BottomNavigationBarItem(
               label: "a", 
-              icon: Icon(Icons.calendar_today_outlined, color: Palette.primary.withOpacity(0.4), size: 24),
-              activeIcon: Icon(Icons.calendar_today_rounded, color: Palette.secondary, size: 24)
+              icon: Icon(CupertinoIcons.flag, color: Palette.primary.withOpacity(0.4), size: 24),
+              activeIcon: Icon(CupertinoIcons.flag_fill, color: Palette.primary, size: 24)
             ),
           ],
         ),
       );
-
-      // return SafeArea(
-      //   child: Scaffold(
-      //     body: ElevatedButton(
-      //       onPressed: () async {
-      //         await authProvider.signOutWithEmailAndPassword()
-      //           .whenComplete((){
-      //             Get.offAndToNamed("/auth");
-      //           });
-      //       },
-      //       child: Text("Log out")),
-      //   ),
-      // );
     });
   }
 }

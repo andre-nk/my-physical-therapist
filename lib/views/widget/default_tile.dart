@@ -1,12 +1,17 @@
 part of "widget.dart";
 
 class DefaultTile extends StatelessWidget {
-
   final String title;
   final double? width;
   final double? height;
+  final Widget? icons;
   final void Function() callback;
-  DefaultTile({required this.title, this.width, this.height, required this.callback});
+  DefaultTile(
+      {required this.title,
+      this.width,
+      this.height,
+      required this.callback,
+      this.icons});
 
   @override
   Widget build(BuildContext context) {
@@ -17,19 +22,29 @@ class DefaultTile extends StatelessWidget {
         height: height ?? MQuery.height(0.085, context),
         padding: EdgeInsets.all(MQuery.height(0.025, context)),
         decoration: BoxDecoration(
-          color: Palette.formColor,
-          borderRadius: BorderRadius.all(
-            Radius.circular(5)
-          )
-        ),
+            color: Palette.formColor,
+            borderRadius: BorderRadius.all(Radius.circular(5))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Font.out(
-              title,
-              fontSize: 20,
-              fontWeight: FontWeight.w700,
+            icons == null 
+              ? SizedBox()
+              : Expanded(
+                  flex: 2,
+                  child: Center(child: icons ?? SizedBox(width: 0)),
+                ),
+            icons == null 
+              ? SizedBox()
+              : Spacer(flex: 1),
+            Expanded(
+              flex: 12,
+              child: Font.out(
+                title,
+                textAlign: TextAlign.start,
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+              ),
             ),
             Icon(CupertinoIcons.chevron_right)
           ],

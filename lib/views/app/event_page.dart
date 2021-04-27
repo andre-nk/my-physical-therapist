@@ -182,6 +182,15 @@ class _EventPageState extends State<EventPage> {
                                           bottom: MQuery.height(0.025, context)
                                         ),
                                         child: EventTile(
+                                          callback: (){
+                                            Get.to(() => EventItemPage(
+                                              title: value[index].title, 
+                                              speaker: "Acme",
+                                              platform: "Zoom",
+                                              start: DateTime.now(),
+                                              end: DateTime.now(),
+                                            ));
+                                          },
                                           title: value[index].title,
                                           end: DateTime.now(),
                                           start: DateTime.now(),
