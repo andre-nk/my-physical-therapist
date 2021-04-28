@@ -27,6 +27,8 @@ part 'app/goal_page.dart';
 part 'app/exercises_goal_page.dart';
 part 'app/weight_tracker_page.dart';
 part 'app/pain_scale_page.dart';
+part 'app/chat_page.dart';
 part 'sub_page/patient_education_sub_page.dart';
 part 'sub_page/event_item_page.dart';
 part 'sub_page/exercises_goal_detailed_page.dart';
+part 'sub_page/chat_contact_page.dart';

@@ -119,6 +119,7 @@ class _DefaultPageState extends State<DefaultPage> {
               HomePage(_drawerKey),
               PatientEducationPage(_drawerKey),
               GoalPage(_drawerKey),
+              ChatPage(_drawerKey)
             ],
           ),
         ),
@@ -143,6 +144,11 @@ class _DefaultPageState extends State<DefaultPage> {
               label: "a", 
               icon: Icon(CupertinoIcons.flag, color: Palette.primary.withOpacity(0.4), size: 24),
               activeIcon: Icon(CupertinoIcons.flag_fill, color: Palette.primary, size: 24)
+            ),
+            BottomNavigationBarItem(
+              label: "a", 
+              icon: Icon(CupertinoIcons.chat_bubble, color: Palette.primary.withOpacity(0.4), size: 24),
+              activeIcon: Icon(CupertinoIcons.chat_bubble_fill, color: Palette.primary, size: 24)
             ),
           ],
         ),
