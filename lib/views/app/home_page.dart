@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
                               elevation: 0
                             ),
                             Container(
-                              height: 120,
+                              height: MQuery.height(0.15, context),
                               width: double.infinity,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,13 +70,13 @@ class _HomePageState extends State<HomePage> {
                                     "hello,",
                                     fontWeight: FontWeight.w600,
                                     color: Colors.white,
-                                    fontSize: 28
+                                    fontSize: 24
                                   ),
                                   Font.out(
                                     displayName,
                                     fontWeight: FontWeight.w700,
                                     color: Colors.white,
-                                    fontSize: 36,
+                                    fontSize: 28,
                                     textAlign: TextAlign.start
                                   )
                                 ],
@@ -161,26 +161,22 @@ class _HomePageState extends State<HomePage> {
                                     itemBuilder: (context, index){
                                       return Padding(
                                         padding: EdgeInsets.only(
-                                          right: MQuery.width(0.025, context)
+                                          right: MQuery.width(0.025, context),
+                                          bottom: MQuery.height(0.025, context)
                                         ),
-                                        child: Padding(
-                                          padding: EdgeInsets.only(
-                                            bottom: MQuery.height(0.025, context)
-                                          ),
-                                          child: EventTile(
-                                            callback: (){
-                                              Get.to(() => EventItemPage(
-                                                title: "hiyah", 
-                                                speaker: "Acme",
-                                                platform: "Zoom",
-                                                start: DateTime.now(),
-                                                end: DateTime.now(),
-                                              ));
-                                            },
-                                            title: "hiyah",
-                                            start: DateTime.now(),
-                                            end: DateTime.now()
-                                          ),
+                                        child: EventTile(
+                                          callback: (){
+                                            Get.to(() => EventItemPage(
+                                              title: "hiyah", 
+                                              speaker: "Acme",
+                                              platform: "Zoom",
+                                              start: DateTime.now(),
+                                              end: DateTime.now(),
+                                            ));
+                                          },
+                                          title: "hiyah",
+                                          start: DateTime.now(),
+                                          end: DateTime.now()
                                         ),
                                       );
                                     },

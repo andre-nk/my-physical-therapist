@@ -57,7 +57,7 @@ class _PatientEducationPageState extends State<PatientEducationPage> {
                             elevation: 0
                           ),
                           Container(
-                            height: 130,
+                            height: MQuery.height(0.15, context),
                             width: double.infinity,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,14 +67,14 @@ class _PatientEducationPageState extends State<PatientEducationPage> {
                                   "Patient Education",
                                   fontWeight: FontWeight.w700,
                                   color: Colors.white,
-                                  fontSize: 32,
+                                  fontSize: 28,
                                   textAlign: TextAlign.start
                                 ),
                                 Font.out(
                                   "discover your therapist's \nnote for you",
                                   fontWeight: FontWeight.w400,
                                   color: Colors.white,
-                                  fontSize: 20,
+                                  fontSize: 18,
                                   textAlign: TextAlign.left
                                 ),
                               ],

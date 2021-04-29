@@ -20,7 +20,7 @@ class _PainScalePageState extends State<PainScalePage> {
         child: Column(
           children: [
             Expanded(
-              flex: 3,
+              flex: 4,
               child: Header(
                 content: Column(
                   children: [
@@ -37,7 +37,7 @@ class _PainScalePageState extends State<PainScalePage> {
                       elevation: 0
                     ),
                     Container(
-                      height: 90,
+                      height: MQuery.height(0.15, context),
                       width: double.infinity,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,7 +58,7 @@ class _PainScalePageState extends State<PainScalePage> {
               ),
             ),
             Expanded(
-              flex: 7,
+              flex: 8,
               child: Container(
                 padding: EdgeInsets.symmetric(
                   horizontal: MQuery.height(0.03, context),
@@ -71,7 +71,7 @@ class _PainScalePageState extends State<PainScalePage> {
                     children: <Widget>[
                       Font.out(
                         "How would you rate your pain right now?",
-                        fontSize: 18,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold
                       ),
                       SizedBox(height: _height),

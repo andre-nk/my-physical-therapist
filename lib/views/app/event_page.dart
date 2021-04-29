@@ -107,6 +107,7 @@ class _EventPageState extends State<EventPage> {
                         height: MQuery.height(0.55, context),
                         width: double.infinity,
                         child: TableCalendar(
+                          rowHeight: MQuery.height(0.065, context),
                           eventLoader: (day) {
                             return _getEventsForDay(day);
                           },

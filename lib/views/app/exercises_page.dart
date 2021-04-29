@@ -3,7 +3,8 @@ part of "../view.dart";
 class ExercisesPage extends StatefulWidget {
 
   final GlobalKey<ScaffoldState> drawerKey;
-  ExercisesPage(this.drawerKey);
+  final void Function() callback;
+  ExercisesPage(this.drawerKey, this.callback);
 
   @override
   _ExercisesPageState createState() => _ExercisesPageState();
@@ -173,7 +174,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
                             elevation: 0
                           ),
                           Container(
-                            height: 110,
+                            height: MQuery.height(0.15, context),
                             width: double.infinity,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -183,14 +184,14 @@ class _ExercisesPageState extends State<ExercisesPage> {
                                   "Today's Exercises",
                                   fontWeight: FontWeight.w700,
                                   color: Colors.white,
-                                  fontSize: 32,
+                                  fontSize: 28,
                                   textAlign: TextAlign.start
                                 ),
                                 Font.out(
                                   DateFormat("dd MMMM yyyy").format(DateTime.now()),
                                   fontWeight: FontWeight.w400,
                                   color: Colors.white,
-                                  fontSize: 20,
+                                  fontSize: 18,
                                   textAlign: TextAlign.left
                                 ),
                               ],
@@ -220,7 +221,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
                             ],
                           ),
                           Container(
-                            height: MQuery.height(0.425, context),
+                            height: MQuery.height(0.465, context),
                             child: ListView.builder(
                               physics: BouncingScrollPhysics(),
                               itemExtent: MQuery.height(0.125, context),
@@ -229,6 +230,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
                                 return Container(
                                   child: ExerciseTile(
                                     callback: (){
+                                      widget.callback();
                                       setState(() {
                                         isMainPage = !isMainPage;     
                                         title = "Goblet Squat"; //TBA, JADI NANTI INI DIISI OLEH DATANYA VIDEO YANG AKAN DI INJECT
@@ -264,6 +266,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
                 appBar: AppBar(
                   leading: IconButton(icon: Icon(CupertinoIcons.chevron_left), onPressed: (){
                     setState(() {
+                      widget.callback();
                       isMainPage = !isMainPage;                      
                     });
                   }),
@@ -304,7 +307,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
                                   horizontal: MQuery.height(0.05, context),
                                   vertical: MQuery.height(0.01, context)
                                 ),
-                                height: MQuery.height(0.09, context),
+                                height: MQuery.height(0.1, context),
                                 decoration: BoxDecoration(
                                   color: Palette.formColor,
                                   borderRadius: BorderRadius.all(Radius.circular(5))
@@ -317,21 +320,21 @@ class _ExercisesPageState extends State<ExercisesPage> {
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Font.out(set.toString(), fontSize: 18, color: Palette.primary, fontWeight: FontWeight.bold),
-                                        Font.out("sets", fontSize: 16)
+                                        Font.out("sets", fontSize: 14)
                                       ],
                                     ),
                                     Column(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Font.out(reps.toString(), fontSize: 18, color: Palette.primary, fontWeight: FontWeight.bold),
-                                        Font.out("reps", fontSize: 16)
+                                        Font.out("reps", fontSize: 14)
                                       ],
                                     ),
                                     Column(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Font.out(rest.toString(), fontSize: 18, color: Palette.primary, fontWeight: FontWeight.bold),
-                                        Font.out("rest", fontSize: 16)
+                                        Font.out("rest", fontSize: 14)
                                       ],
                                     )
                                   ],
@@ -357,100 +360,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
                             ],
                           ),
                         )
-                        // Padding(
-                        //   padding: const EdgeInsets.only(bottom: 0),
-                        //   child: StreamBuilder<int>(
-                        //     stream: _stopWatchTimer.rawTime,
-                        //     initialData: _stopWatchTimer.rawTime.valueWrapper?.value,
-                        //     builder: (context, snap) {
-                        //       final value = snap.data!;
-                        //       final displayTime = StopWatchTimer.getDisplayTime(value,
-                        //           hours: false, milliSecond: false);
-                        //       return Column(
-                        //         children: <Widget>[
-                        //           Padding(
-                        //             padding: const EdgeInsets.all(8),
-                        //             child: Text(
-                        //               displayTime,
-                        //               style: const TextStyle(
-                        //                   fontSize: 40,
-                        //                   fontFamily: 'Helvetica',
-                        //                   fontWeight: FontWeight.bold),
-                        //             ),
-                        //           ),
-                        //         ],
-                        //       );
-                        //     },
-                        //   ),
-                        // ),
-                      ),
-                      /// Button
-                      // Padding(
-                      //   padding: const EdgeInsets.all(2),
-                      //   child: Column(
-                      //     children: <Widget>[
-                      //       Padding(
-                      //         padding: const EdgeInsets.only(bottom: 0),
-                      //         child: Row(
-                      //           mainAxisAlignment: MainAxisAlignment.center,
-                      //           children: <Widget>[
-                      //             Padding(
-                      //               padding: const EdgeInsets.symmetric(horizontal: 4),
-                      //               // ignore: deprecated_member_use
-                      //               child: RaisedButton(
-                      //                 padding: const EdgeInsets.all(4),
-                      //                 color: Colors.lightBlue,
-                      //                 shape: const StadiumBorder(),
-                      //                 onPressed: () async {
-                      //                   _stopWatchTimer.onExecute
-                      //                       .add(StopWatchExecute.start);
-                      //                 },
-                      //                 child: const Text(
-                      //                   'Start',
-                      //                   style: TextStyle(color: Colors.white),
-                      //                 ),
-                      //               ),
-                      //             ),
-                      //             Padding(
-                      //               padding: const EdgeInsets.symmetric(horizontal: 4),
-                      //               // ignore: deprecated_member_use
-                      //               child: RaisedButton(
-                      //                 padding: const EdgeInsets.all(4),
-                      //                 color: Colors.green,
-                      //                 shape: const StadiumBorder(),
-                      //                 onPressed: () async {
-                      //                   _stopWatchTimer.onExecute
-                      //                       .add(StopWatchExecute.stop);
-                      //                 },
-                      //                 child: const Text(
-                      //                   'Stop',
-                      //                   style: TextStyle(color: Colors.white),
-                      //                 ),
-                      //               ),
-                      //             ),
-                      //             Padding(
-                      //               padding: const EdgeInsets.symmetric(horizontal: 4),
-                      //               // ignore: deprecated_member_use
-                      //               child: RaisedButton(
-                      //                 padding: const EdgeInsets.all(4),
-                      //                 color: Colors.red,
-                      //                 shape: const StadiumBorder(),
-                      //                 onPressed: () async {
-                      //                   _stopWatchTimer.onExecute
-                      //                       .add(StopWatchExecute.reset);
-                      //                 },
-                      //                 child: const Text(
-                      //                   'Reset',
-                      //                   style: TextStyle(color: Colors.white),
-                      //                 ),
-                      //               ),
-                      //             ),
-                      //           ],
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // )
+                      )
                     ],
                   ),
                 ),

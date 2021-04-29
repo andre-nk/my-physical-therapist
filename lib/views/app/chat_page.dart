@@ -56,7 +56,7 @@ class _ChatPageState extends State<ChatPage> {
                               elevation: 0
                             ),
                             Container(
-                              height: 90,
+                              height: MQuery.height(0.1, context),
                               width: double.infinity,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,

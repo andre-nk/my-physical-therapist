@@ -32,7 +32,7 @@ class PatientEducationSubPage extends ConsumerWidget {
                         elevation: 0
                       ),
                       Container(
-                        height: 110,
+                        height: MQuery.height(0.15, context),
                         width: double.infinity,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,7 +42,7 @@ class PatientEducationSubPage extends ConsumerWidget {
                               type,
                               fontWeight: FontWeight.w700,
                               color: Colors.white,
-                              fontSize: 32,
+                              fontSize: 28,
                               textAlign: TextAlign.start
                             ),
                           ],

@@ -58,7 +58,7 @@ class _GoalPageState extends State<GoalPage> {
                             elevation: 0
                           ),
                           Container(
-                            height: 110,
+                            height: MQuery.height(0.15, context),
                             width: double.infinity,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,14 +68,14 @@ class _GoalPageState extends State<GoalPage> {
                                   "Progress and Goal",
                                   fontWeight: FontWeight.w700,
                                   color: Colors.white,
-                                  fontSize: 32,
+                                  fontSize: 28,
                                   textAlign: TextAlign.start
                                 ),
                                 Font.out(
                                   "track progress, goal and result",
                                   fontWeight: FontWeight.w400,
                                   color: Colors.white,
-                                  fontSize: 20,
+                                  fontSize: 18,
                                   textAlign: TextAlign.start
                                 ),
                               ],

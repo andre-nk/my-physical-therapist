@@ -46,7 +46,7 @@ class ExercisesGoalPage extends ConsumerWidget {
                         elevation: 0
                       ),
                       Container(
-                        height: 90,
+                        height: MQuery.height(0.12, context),
                         width: double.infinity,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

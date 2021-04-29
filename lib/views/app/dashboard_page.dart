@@ -32,7 +32,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         elevation: 0
                       ),
                       Container(
-                        height: 130,
+                        height: MQuery.height(0.17, context),
                         width: double.infinity,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,14 +42,15 @@ class _DashboardPageState extends State<DashboardPage> {
                               "Dashboard",
                               fontWeight: FontWeight.w700,
                               color: Colors.white,
-                              fontSize: 32,
+                              fontSize: 28,
                               textAlign: TextAlign.start
                             ),
                             Font.out(
                               "find your personal informations here",
                               fontWeight: FontWeight.w400,
                               color: Colors.white,
-                              fontSize: 20
+                              fontSize: 20,
+                              textAlign: TextAlign.start
                             ),
                           ],
                         ),

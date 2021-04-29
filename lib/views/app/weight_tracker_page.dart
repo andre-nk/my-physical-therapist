@@ -35,7 +35,7 @@ class _WeightTrackerPageState extends State<WeightTrackerPage> {
                         padding: EdgeInsets.only(
                           top: MQuery.height(0.01, context)
                         ),
-                        height: MQuery.height(0.415, context),
+                        height: MQuery.height(0.41, context),
                         width: double.infinity,
                         child: LineChart(
                           LineChartData(
@@ -151,7 +151,7 @@ class _WeightTrackerPageState extends State<WeightTrackerPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        height: MQuery.height(0.3, context),
+                        height: MQuery.height(0.325, context),
                         child: GridView.count(
                           childAspectRatio: 1/1.25,
                           primary: false,
@@ -228,13 +228,13 @@ class _WeightTrackerPageState extends State<WeightTrackerPage> {
                           ]
                         ),
                       ),
-                      SizedBox(height: MQuery.height(0.02, context)),
+                      SizedBox(height: MQuery.height(0.01, context)),
                       Font.out(
                         "History",
                         fontWeight: FontWeight.bold,
                         fontSize: 18
                       ),
-                      SizedBox(height: MQuery.height(0.02, context)),
+                      SizedBox(height: MQuery.height(0.01, context)),
                       Container(
                         height: MQuery.height(0.3, context),
                         child: ListView.builder(

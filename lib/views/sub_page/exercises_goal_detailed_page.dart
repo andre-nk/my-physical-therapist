@@ -16,7 +16,7 @@ class ExercisesGoalDetailedPage extends ConsumerWidget {
           child: Column(
             children: [
               Expanded(
-                flex: 4,
+                flex: 5,
                 child: Header(
                   content: Column(
                     children: [

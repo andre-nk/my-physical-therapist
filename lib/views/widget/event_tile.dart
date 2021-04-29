@@ -29,7 +29,7 @@ class EventTile extends StatelessWidget {
               flex: 2,
               child: Font.out(
                 formatter.format(start),
-                fontSize: 18,
+                fontSize: 16,
                 fontWeight: FontWeight.bold,
                 color: Palette.primary
               ),
@@ -55,7 +55,7 @@ class EventTile extends StatelessWidget {
                   children: [
                     Font.out(
                       title2,
-                      fontSize: 18,
+                      fontSize: 16,
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                       textAlign: TextAlign.start,
