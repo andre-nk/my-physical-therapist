@@ -17,4 +17,5 @@ part "default_tile.dart";
 part "chat_tile.dart";
 part "information_tile.dart";
 part "bubble_chat.dart";
+part "exercise_tile.dart";
 

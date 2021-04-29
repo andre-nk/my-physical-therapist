@@ -17,8 +17,7 @@ class _ChatPageState extends State<ChatPage> {
 
         final authProvider = watch(authenticationProvider);
 
-        return SafeArea(
-          child: Scaffold(
+        return Scaffold(
             body: SingleChildScrollView(
               child: Container(
                 height: MQuery.height(0.95, context),
@@ -57,7 +56,7 @@ class _ChatPageState extends State<ChatPage> {
                               elevation: 0
                             ),
                             Container(
-                              height: 110,
+                              height: 90,
                               width: double.infinity,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,7 +83,7 @@ class _ChatPageState extends State<ChatPage> {
                           MQuery.height(0.02, context),
                           MQuery.height(0.02, context),
                           MQuery.height(0.02, context),
-                          MQuery.height(0.075, context)
+                          MQuery.height(0.02, context)
                         ),
                         child: ListView.separated(
                           physics: BouncingScrollPhysics(),
@@ -119,7 +118,7 @@ class _ChatPageState extends State<ChatPage> {
                 )
               )
             )
-          )
+          
         );
       }
     );

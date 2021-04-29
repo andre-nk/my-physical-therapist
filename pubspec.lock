@@ -202,6 +202,13 @@ packages:
       url: "https://pub.dev/"
     source: hosted
     version: "2.0.0"
+  flutter_inappwebview:
+    dependency: transitive
+    description:
+      name: flutter_inappwebview
+      url: "https://pub.dev/"
+    source: hosted
+    version: "5.3.2"
   flutter_launcher_icons:
     dependency: "direct main"
     description:
@@ -457,6 +464,13 @@ packages:
       url: "https://pub.dev/"
     source: hosted
     version: "0.13.1"
+  rxdart:
+    dependency: transitive
+    description:
+      name: rxdart
+      url: "https://pub.dev/"
+    source: hosted
+    version: "0.26.0"
   simple_gesture_detector:
     dependency: transitive
     description:
@@ -490,6 +504,13 @@ packages:
       url: "https://pub.dev/"
     source: hosted
     version: "0.7.0"
+  stop_watch_timer:
+    dependency: "direct main"
+    description:
+      name: stop_watch_timer
+      url: "https://pub.dev/"
+    source: hosted
+    version: "1.1.0+1"
   stream_channel:
     dependency: transitive
     description:
@@ -609,6 +630,13 @@ packages:
       url: "https://pub.dev/"
     source: hosted
     version: "3.1.0"
+  youtube_plyr_iframe:
+    dependency: "direct main"
+    description:
+      name: youtube_plyr_iframe
+      url: "https://pub.dev/"
+    source: hosted
+    version: "2.0.3"
 sdks:
   dart: ">=2.12.0 <3.0.0"
   flutter: ">=2.0.0"

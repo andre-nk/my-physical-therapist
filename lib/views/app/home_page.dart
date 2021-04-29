@@ -21,8 +21,7 @@ class _HomePageState extends State<HomePage> {
           ? authProvider.auth.currentUser!.displayName!.split(" ")[0].toString().substring(0, 14) + "!"
           :  authProvider.auth.currentUser!.displayName!.split(" ")[0].toString() + "!";
 
-        return SafeArea(
-          child: Scaffold(
+        return Scaffold(
             body: SingleChildScrollView(
               physics: BouncingScrollPhysics(),
               child: Container(
@@ -61,7 +60,7 @@ class _HomePageState extends State<HomePage> {
                               elevation: 0
                             ),
                             Container(
-                              height: 130,
+                              height: 120,
                               width: double.infinity,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -197,7 +196,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             )
-          ),
+          
         );
       }
     );

@@ -118,12 +118,14 @@ class _DefaultPageState extends State<DefaultPage> {
             children: <Widget>[
               HomePage(_drawerKey),
               PatientEducationPage(_drawerKey),
+              ExercisesPage(_drawerKey),
               GoalPage(_drawerKey),
               ChatPage(_drawerKey)
             ],
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: _selectedIndex == 2 ? Palette.primary : Colors.white,
           type: BottomNavigationBarType.fixed,
           currentIndex: _selectedIndex,
           onTap: onTabTapped,
@@ -137,17 +139,22 @@ class _DefaultPageState extends State<DefaultPage> {
             ),
             BottomNavigationBarItem(
               label: "a", 
-              icon: Icon(CupertinoIcons.book, color: Palette.primary.withOpacity(0.4), size: 24),
+              icon: Icon(CupertinoIcons.book, color: Palette.secondary, size: 24),
               activeIcon: Icon(CupertinoIcons.book_fill, color: Palette.primary, size: 24)
             ),
             BottomNavigationBarItem(
               label: "a", 
-              icon: Icon(CupertinoIcons.flag, color: Palette.primary.withOpacity(0.4), size: 24),
+              icon: Icon(MyPhysicalTherapist.barbell_outlined, color: Palette.secondary, size: 28),
+              activeIcon: Icon(MyPhysicalTherapist.barbell_filled, color: Colors.white, size: 28)
+            ),
+            BottomNavigationBarItem(
+              label: "a", 
+              icon: Icon(CupertinoIcons.flag, color: Palette.secondary, size: 24),
               activeIcon: Icon(CupertinoIcons.flag_fill, color: Palette.primary, size: 24)
             ),
             BottomNavigationBarItem(
               label: "a", 
-              icon: Icon(CupertinoIcons.chat_bubble, color: Palette.primary.withOpacity(0.4), size: 24),
+              icon: Icon(CupertinoIcons.chat_bubble, color: Palette.secondary, size: 24),
               activeIcon: Icon(CupertinoIcons.chat_bubble_fill, color: Palette.primary, size: 24)
             ),
           ],
