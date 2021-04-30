@@ -13,6 +13,7 @@ class ExercisesPage extends StatefulWidget {
 class _ExercisesPageState extends State<ExercisesPage> {
 
   bool isMainPage = true;
+  bool isPlaying = false;
   String title = "";
   int reps = 0;
   int set = 0;
@@ -37,6 +38,8 @@ class _ExercisesPageState extends State<ExercisesPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    print(isPlaying);
 
     // ignore: close_sinks
     YoutubePlayerController _controller = YoutubePlayerController(
@@ -119,13 +122,23 @@ class _ExercisesPageState extends State<ExercisesPage> {
                         ),
                         SizedBox(width: MQuery.width(0.01, context)),
                         IconButton(
-                          icon: _stopWatchTimer.isRunning
-                            ? Icon(CupertinoIcons.play_fill, color: Colors.white)
-                            : Icon(CupertinoIcons.pause_fill, color: Colors.white),
+                          icon: isPlaying
+                            ? Icon(CupertinoIcons.pause_fill, color: Colors.white)
+                            : Icon(CupertinoIcons.play_fill, color: Colors.white),
                           onPressed: (){
-                            _stopWatchTimer.isRunning
-                            ? _stopWatchTimer.onExecute.add(StopWatchExecute.stop)
-                            : _stopWatchTimer.onExecute.add(StopWatchExecute.start);
+                            if(isPlaying){
+                              setState(() {
+                                isPlaying = !isPlaying;                                
+                              });
+                              _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+                              widget.callback();
+                            } else {
+                              setState(() {
+                                isPlaying = !isPlaying;                                
+                              });
+                              _stopWatchTimer.onExecute.add(StopWatchExecute.start);
+                              widget.callback();
+                            }       
                           }
                         )
                       ],
@@ -221,7 +234,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
                             ],
                           ),
                           Container(
-                            height: MQuery.height(0.465, context),
+                            height: MQuery.height(0.5, context),
                             child: ListView.builder(
                               physics: BouncingScrollPhysics(),
                               itemExtent: MQuery.height(0.125, context),
@@ -230,7 +243,6 @@ class _ExercisesPageState extends State<ExercisesPage> {
                                 return Container(
                                   child: ExerciseTile(
                                     callback: (){
-                                      widget.callback();
                                       setState(() {
                                         isMainPage = !isMainPage;     
                                         title = "Goblet Squat"; //TBA, JADI NANTI INI DIISI OLEH DATANYA VIDEO YANG AKAN DI INJECT
@@ -266,7 +278,6 @@ class _ExercisesPageState extends State<ExercisesPage> {
                 appBar: AppBar(
                   leading: IconButton(icon: Icon(CupertinoIcons.chevron_left), onPressed: (){
                     setState(() {
-                      widget.callback();
                       isMainPage = !isMainPage;                      
                     });
                   }),

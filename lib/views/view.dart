@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'dart:io';
+import 'dart:core';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,9 +16,9 @@ import 'package:my_physical_therapist/views/widget/widget.dart';
 import 'package:my_physical_therapist/providers/provider.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'dart:core';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_plyr_iframe/youtube_plyr_iframe.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 part "auth/auth_page.dart";
 part "auth/sign_in_page.dart";

@@ -4,10 +4,24 @@ class AuthPage extends ConsumerWidget {
     
     final authProvider = watch(authenticationProvider);
 
+    final String facebookAssetName = 'assets/facebook.svg';
+    final Widget facebookSVG = SvgPicture.asset(
+      facebookAssetName,
+      height: MQuery.height(0.055, context),
+      semanticsLabel: 'Acme Logo'
+    );
+
+    final String googleAssetName = 'assets/google.svg';
+    final Widget googleSVG = SvgPicture.asset(
+      googleAssetName,
+      height: MQuery.height(0.05, context),
+      semanticsLabel: 'Acme Logo'
+    );
+
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(
-          MQuery.height(0.02, context)
+          MQuery.height(0.0325, context)
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -33,30 +47,82 @@ class AuthPage extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        InkWell(
-                          onTap: () async {
-                            await authProvider.signInWithFacebook(
-                              context,
-                                SnackBar(
-                                  backgroundColor: Palette.secondary,
-                                  content: Font.out(
-                                    "You've cancel the Facebook sign-in",
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold
-                                  ),
+                        Expanded(
+                          flex: 5,
+                          child: Container(
+                            height: MQuery.height(0.075, context),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.only(
+                                  left: MQuery.width(0.0075, context),
+                                  right: MQuery.width(0.025, context)
+                                ),
+                                primary: Palette.secondary,
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50.0)
                                 )
-                            );
-                          },
-                          child:Image.asset("assets/facebook.png")
+                              ),
+                              onPressed: () async {
+                                await authProvider.signInWithFacebook(
+                                  context,
+                                  SnackBar(
+                                    backgroundColor: Palette.secondary,
+                                    content: Font.out(
+                                      "You've cancel the Facebook sign-in",
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold
+                                    ),
+                                  )
+                                ); 
+                              },
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  facebookSVG,
+                                  Font.out(
+                                    "Facebook",
+                                    fontSize: 20, fontWeight: FontWeight.bold
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
                         ),
-                        InkWell(
-                          onTap: () async {
-                            await authProvider.signUpWithGoogle().whenComplete(() async {
-                              Get.offAndToNamed("/home");     
-                            });
-                          },
-                          child:Image.asset("assets/google.png")
-                        ),
+                        Spacer(),
+                        Expanded(
+                          flex: 5,
+                          child: Container(
+                            height: MQuery.height(0.075, context),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.only(
+                                  right: MQuery.width(0.025, context)
+                                ),
+                                primary: Palette.secondary,
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50.0)
+                                )
+                              ),
+                              onPressed: () async {
+                                await authProvider.signUpWithGoogle();
+                              },
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  googleSVG,
+                                  Font.out(
+                                    "Google",
+                                    fontSize: 20, fontWeight: FontWeight.bold
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        )
                       ],
                     ),
                   ),
