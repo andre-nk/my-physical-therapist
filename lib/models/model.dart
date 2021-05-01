@@ -1,0 +1,1 @@
+part "general_content_model.dart";
