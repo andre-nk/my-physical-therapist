@@ -21,16 +21,16 @@ class MyApp extends StatelessWidget {
 
   final Map<int, Color> color =
   {
-  50:Color.fromRGBO(136,14,79, .1),
-  100:Color.fromRGBO(136,14,79, .2),
-  200:Color.fromRGBO(136,14,79, .3),
-  300:Color.fromRGBO(136,14,79, .4),
-  400:Color.fromRGBO(136,14,79, .5),
-  500:Color.fromRGBO(136,14,79, .6),
-  600:Color.fromRGBO(136,14,79, .7),
-  700:Color.fromRGBO(136,14,79, .8),
-  800:Color.fromRGBO(136,14,79, .9),
-  900:Color.fromRGBO(136,14,79, 1),
+  50:Color(0xff2B4784),
+  100:Color(0xff2B4784),
+  200:Color(0xff2B4784),
+  300:Color(0xff2B4784),
+  400:Color(0xff2B4784),
+  500:Color(0xff2B4784),
+  600:Color(0xff2B4784),
+  700:Color(0xff2B4784),
+  800:Color(0xff2B4784),
+  900:Color(0xff2B4784),
   };
 
   @override
@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
       title: 'My Physical Therapist',
       theme: ThemeData(
         primarySwatch: MaterialColor(0xff2B4784, color),
+        primaryColor: MaterialColor(0xff2B4784, color),
       ),
       home: Authenticator(),
       routes: {

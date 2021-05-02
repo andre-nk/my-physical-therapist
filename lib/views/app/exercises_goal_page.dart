@@ -8,17 +8,20 @@ class ExercisesGoalPage extends ConsumerWidget {
       {
         "icon": Icon(MyPhysicalTherapist.meal, color: Palette.primary),
         "iconTransfer": Icon(MyPhysicalTherapist.meal, color: Colors.white, size: 24),
-        "string": "Nutrition Meals"
+        "string": "Nutrition Goals",
+        "type": "nutrition-goals"
       },
       {
         "icon": Icon(MyPhysicalTherapist.barbell_filled, color: Palette.primary, size: 28),
         "iconTransfer": Icon(MyPhysicalTherapist.barbell_filled, color: Colors.white, size: 28),
-        "string": "WOD Goals"
+        "string": "WOD Goals",
+        "type": "wod-goals"
       },
       {
         "icon": Icon(MyPhysicalTherapist.vector, color: Palette.primary),
         "iconTransfer": Icon(MyPhysicalTherapist.vector, color: Colors.white, size: 24),
-        "string": "Weight Goals"
+        "string": "Weight Goals",
+        "type": "weight-goals"
       },
     ];
 
@@ -89,7 +92,8 @@ class ExercisesGoalPage extends ConsumerWidget {
                           Get.to(() => ExercisesGoalDetailedPage(
                             title: data["string"],
                             icon: data["iconTransfer"],
-                          ));
+                            type: data["type"]
+                          ), transition: Transition.cupertino);
                         },
                         child: Container(
                           decoration: BoxDecoration(

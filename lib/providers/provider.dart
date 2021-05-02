@@ -10,3 +10,4 @@ part "auth_provider.dart";
 part "user_provider.dart";
 part "exercise_provider.dart";
 part "general_content_provider.dart";
+part "weight_tracker_provider.dart";

@@ -10,6 +10,7 @@ class _PainScalePageState extends State<PainScalePage> {
   double _value = 0;
   List<String> _emojis = ['😃','😃','😟','😟','😞','😞','🥺','🥺','😫','😫','🤕','🤕'];
   double _height = 17.5;
+  bool overrideFirestoreValue = false;
 
   @override
   Widget build(BuildContext context) {
@@ -59,61 +60,77 @@ class _PainScalePageState extends State<PainScalePage> {
             ),
             Expanded(
               flex: 8,
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: MQuery.height(0.03, context),
-                  vertical: MQuery.height(0.04, context)
-                ),
-                child: Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Font.out(
-                        "How would you rate your pain right now?",
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold
-                      ),
-                      SizedBox(height: _height),
-                      Container(
-                        child: SliderTheme(
-                          data: SliderThemeData(
-                            valueIndicatorColor: Colors.transparent,
-                            valueIndicatorTextStyle: Font.style(
-                              fontSize: 24
-                            )
-                          ),
-                          child: Slider(
-                            label: _emojis[_value.toInt()],
-                            value: _value,
-                            min: 0.0,
-                            max: 10.0,
-                            onChangeStart: (double value) {
-                              setState(() {
-                                _height = MQuery.height(0.06, context);                                  
-                              });
-                              print('Start value is ' + value.toString());
-                            },
-                            onChangeEnd: (double value) {
-                              setState(() {
-                                _height = 17.5;                                  
-                              });
-                              print('Finish value is ' + value.toString());
-                            },
-                            onChanged: (double value) {
-                              setState(() {
-                                _value = value;
-                              });
-                            },
-                            activeColor: Palette.primary,
-                            inactiveColor: Palette.tertiary,
-                            divisions: 10,
+              child: Consumer(
+                builder: (context, watch, _){
+
+                  final sliderValues = watch(userScaleProvider);
+
+                  return sliderValues.when(
+                    data: (value){
+                      return Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: MQuery.height(0.03, context),
+                          vertical: MQuery.height(0.04, context)
+                        ),
+                        child: Center(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Font.out(
+                                "How would you rate your pain right now?",
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold
+                              ),
+                              SizedBox(height: _height),
+                              Container(
+                                child: SliderTheme(
+                                  data: SliderThemeData(
+                                    valueIndicatorColor: Colors.transparent,
+                                    valueIndicatorTextStyle: Font.style(
+                                      fontSize: 24
+                                    )
+                                  ),
+                                  child: Slider(
+                                    label: _emojis[_value.toInt()],
+                                    value: overrideFirestoreValue ? _value : value[0],
+                                    min: 0.0,
+                                    max: 10.0,
+                                    onChangeStart: (double value) {
+                                      setState(() {
+                                        overrideFirestoreValue = true;
+                                        _height = MQuery.height(0.06, context);
+
+                                      });
+                                      print('Start value is ' + value.toString());
+                                    },
+                                    onChangeEnd: (double value) {
+                                      setState(() {
+                                        watch(userScaleSetterProvider(["painScale", value]));
+                                        _height = 17.5;                                  
+                                      });
+                                      print('Finish value is ' + value.toString());
+                                    },
+                                    onChanged: (double value) {
+                                      setState(() {
+                                        _value = value;
+                                      });
+                                    },
+                                    activeColor: Palette.primary,
+                                    inactiveColor: Palette.tertiary,
+                                    divisions: 10,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
+                      );
+                    },
+                    loading: () => Center(child: CircularProgressIndicator(backgroundColor: Palette.primary)),
+                    error: (_,__) => SizedBox(),
+                  );
+                }
               ),
             ),
           ])
