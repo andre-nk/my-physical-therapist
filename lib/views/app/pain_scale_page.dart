@@ -11,6 +11,7 @@ class _PainScalePageState extends State<PainScalePage> {
   List<String> _emojis = ['😃','😃','😟','😟','😞','😞','🥺','🥺','😫','😫','🤕','🤕'];
   double _height = 17.5;
   bool overrideFirestoreValue = false;
+  TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +65,8 @@ class _PainScalePageState extends State<PainScalePage> {
                 builder: (context, watch, _){
 
                   final sliderValues = watch(userScaleProvider);
+
+                  print(sliderValues);
 
                   return sliderValues.when(
                     data: (value){
@@ -121,6 +124,61 @@ class _PainScalePageState extends State<PainScalePage> {
                                     divisions: 10,
                                   ),
                                 ),
+                              ),
+                              SizedBox(height: MQuery.height(0.025, context)),
+                              Font.out(
+                                "How would you describe this pain feeling?",
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold
+                              ),
+                              SizedBox(height: MQuery.height(0.02, context)),
+                              TextFormField(
+                                textInputAction: TextInputAction.done,
+                                maxLines: 5,
+                                controller: controller,
+                                cursorColor: Palette.primary,
+                                style: Font.style(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 18,
+                                    color: Palette.primary),
+                                decoration: new InputDecoration(
+                                  contentPadding: EdgeInsets.symmetric(
+                                    vertical: MQuery.width(0.03, context),
+                                    horizontal: MQuery.width(0.03, context),
+                                  ),
+                                  fillColor: Palette.formColor.withOpacity(0.3),
+                                  focusColor: Palette.formColor,
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Palette.secondaryBorder, width: 1.25),
+                                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Palette.secondaryBorder, width: 1.25),
+                                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                                  filled: true,
+                                  hintStyle: Font.style(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 18,
+                                    color: Palette.primary
+                                  ),
+                                  hintText: value[1],
+                                ),
+                                onEditingComplete: (){
+                                  if(controller.text != ""){
+                                    watch(userPainDescriptionSetter(controller.text));
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        backgroundColor: Palette.secondary,
+                                        content: Font.out(
+                                          "Your pain record has been recorded",
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold
+                                        ),
+                                      )
+                                    );
+                                  }
+                                },
                               ),
                             ],
                           ),

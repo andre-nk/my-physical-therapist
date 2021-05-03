@@ -117,7 +117,11 @@ class _DefaultPageState extends State<DefaultPage> {
               setState(() => _selectedIndex = index);
             },
             children: <Widget>[
-              HomePage(_drawerKey),
+              HomePage(_drawerKey,
+                (){
+                  _pageController.animateToPage(2, duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
+                }
+              ),
               PatientEducationPage(_drawerKey),
               ExercisesPage(_drawerKey,
                 (){

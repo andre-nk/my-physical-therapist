@@ -71,6 +71,7 @@ class ExerciseTile extends StatelessWidget {
                               return Container(color: Palette.primary);
                             },
                             image: NetworkImage(imageURL),
+                            fit: BoxFit.fill
                           ),
                         ),
                       ),

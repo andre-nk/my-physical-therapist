@@ -3,8 +3,9 @@ part of "../view.dart";
 class HomePage extends StatefulWidget {
 
   final GlobalKey<ScaffoldState> drawerKey;
+  final void Function() callback;
 
-  HomePage(this.drawerKey);
+  HomePage(this.drawerKey, this.callback);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -20,6 +21,9 @@ class _HomePageState extends State<HomePage> {
         String displayName = authProvider.auth.currentUser!.displayName!.split(" ")[0].toString().length > 14 
           ? authProvider.auth.currentUser!.displayName!.split(" ")[0].toString().substring(0, 14) + "!"
           :  authProvider.auth.currentUser!.displayName!.split(" ")[0].toString() + "!";
+
+        final exerciseListProvider = watch(exercisesProvider);
+        final eventProvider = watch(eventListProvider);
 
         return Scaffold(
             body: SingleChildScrollView(
@@ -117,25 +121,33 @@ class _HomePageState extends State<HomePage> {
                                   child: SubHeadingMore(
                                     title: "Today's exercises",
                                     callback: (){
-                                     
+                                      widget.callback();
                                     },
                                   ),
                                 ),
-                                Container(
-                                  height: MQuery.height(0.2, context),
-                                  child: ListView.builder(
-                                    physics: BouncingScrollPhysics(),
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: 5,
-                                    itemBuilder: (context, index){
-                                      return Padding(
-                                        padding: EdgeInsets.only(
-                                          right: MQuery.width(0.025, context)
-                                        ),
-                                        child: ExerciseCard(),
-                                      );
-                                    },
-                                  ),
+                                exerciseListProvider.when(
+                                  data: (value){
+                                    return Container(
+                                      height: MQuery.height(0.2, context),
+                                      child: ListView.builder(
+                                        physics: BouncingScrollPhysics(),
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: value.length,
+                                        itemBuilder: (context, index){
+                                          return Padding(
+                                            padding: EdgeInsets.only(
+                                              right: MQuery.width(0.025, context)
+                                            ),
+                                            child: ExerciseCard(
+                                              imageURL: 'https://img.youtube.com/vi/${value[index].videoURL}/0.jpg',
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  },
+                                  loading: () => Center(child: CircularProgressIndicator(backgroundColor: Palette.primary)),
+                                  error: (_,__) => SizedBox(),
                                 )
                               ],
                             ),
@@ -152,35 +164,58 @@ class _HomePageState extends State<HomePage> {
                                     },
                                   ),
                                 ),
-                                Container(
-                                  height: MQuery.height(0.4, context),
-                                  child: ListView.builder(
-                                    physics: BouncingScrollPhysics(),
-                                    scrollDirection: Axis.vertical,
-                                    itemCount: 3,
-                                    itemBuilder: (context, index){
-                                      return Padding(
-                                        padding: EdgeInsets.only(
-                                          right: MQuery.width(0.025, context),
-                                          bottom: MQuery.height(0.025, context)
-                                        ),
-                                        child: EventTile(
-                                          callback: (){
-                                            Get.to(() => EventItemPage(
-                                              title: "hiyah", 
-                                              speaker: "Acme",
-                                              platform: "Zoom",
-                                              start: DateTime.now(),
-                                              end: DateTime.now(),
-                                            ));
-                                          },
-                                          title: "hiyah",
-                                          start: DateTime.now(),
-                                          end: DateTime.now()
-                                        ),
-                                      );
-                                    },
-                                  ),
+                                eventProvider.when(
+                                  data: (value){
+
+                                    List<EventModel> filteredValue = [];
+
+                                    value.forEach((element) {
+                                      if(element.start.toString().substring(0, 10) == DateTime.now().toString().substring(0,10)){
+                                        filteredValue.add(element);
+                                      }
+                                    });
+
+                                    return filteredValue.length == 0
+                                    ? Center(
+                                      child: Font.out(
+                                          "There are no events today",
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.normal,
+                                          color: Palette.primary))
+                                    : Container(
+                                      height: MQuery.height(0.4, context),
+                                      child: ListView.builder(
+                                        physics: BouncingScrollPhysics(),
+                                        scrollDirection: Axis.vertical,
+                                        itemCount: filteredValue.length,
+                                        itemBuilder: (context, index){
+                                          return Padding(
+                                            padding: EdgeInsets.only(
+                                              right: MQuery.width(0.025, context),
+                                              bottom: MQuery.height(0.025, context)
+                                            ),
+                                            child: EventTile(
+                                              callback: (){
+                                                Get.to(() => EventItemPage(
+                                                  title: filteredValue[index].title, 
+                                                  speaker: filteredValue[index].speaker,
+                                                  platform: filteredValue[index].media,
+                                                  start: filteredValue[index].start,
+                                                  end: filteredValue[index].end,
+                                                  description: filteredValue[index].description,
+                                                ));
+                                              },
+                                              title:  filteredValue[index].title,
+                                              start: filteredValue[index].start,
+                                              end: filteredValue[index].end,
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  },
+                                  loading: () => Center(child: CircularProgressIndicator(backgroundColor: Palette.primary)),
+                                  error: (_,__) => SizedBox(),
                                 )
                               ],
                             ),

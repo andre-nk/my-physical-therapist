@@ -7,8 +7,9 @@ class EventItemPage extends ConsumerWidget {
   final DateTime end;
   final String platform;
   final String speaker;
+  final String description;
 
-  EventItemPage({required this.title, required this.start, required this.end, required this.platform, required this.speaker});
+  EventItemPage({required this.title, required this.start, required this.end, required this.platform, required this.speaker, required this.description});
 
   @override
   Widget build(BuildContext context, watch) {
@@ -111,14 +112,20 @@ class EventItemPage extends ConsumerWidget {
                         ),
                       ),
                       SizedBox(height: MQuery.height(0.03, context)),
-                      Linkify(
-                        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vel nulla massa. Fusce arcu elit, porta in gravida eu, tincidunt sed est. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas sit amet nisl eget arcu lacinia tempor. Sed condimentum lacus vitae odio elementum luctus. Pellentesque mattis pellentesque blandit. Fusce non viverra quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed faucibus felis eget magna mattis bibendum. Morbi aliquet finibus tristique.",
-                        textAlign: TextAlign.start,
-                        style: Font.style(
-                          color: Colors.black,
-                          fontSize: 16,
+                      Container(
+                        height: MQuery.height(0.45, context),
+                        child: SingleChildScrollView(
+                          physics: BouncingScrollPhysics(),
+                          child: Linkify(
+                            text: description,
+                            textAlign: TextAlign.start,
+                            style: Font.style(
+                              color: Colors.black,
+                              fontSize: 16,
+                            ),
+                          ),
                         ),
-                      ),
+                      )
                     ],
                   )
                 )

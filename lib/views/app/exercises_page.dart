@@ -4,6 +4,7 @@ class ExercisesPage extends StatefulWidget {
 
   final GlobalKey<ScaffoldState> drawerKey;
   final void Function() callback;
+  
   ExercisesPage(this.drawerKey, this.callback);
 
   @override
@@ -15,6 +16,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
   bool isMainPage = true;
   bool isPlaying = false;
   String title = "";
+  String id = "";
   int reps = 0;
   int set = 0;
   int rest = 0;
@@ -38,9 +40,6 @@ class _ExercisesPageState extends State<ExercisesPage> {
 
   @override
   Widget build(BuildContext context) {
-
-    print(isPlaying);
-
     // ignore: close_sinks
     YoutubePlayerController _controller = YoutubePlayerController(
       initialVideoId: videoURL,
@@ -68,12 +67,32 @@ class _ExercisesPageState extends State<ExercisesPage> {
       });
     };
 
+    _controller.setLoop(true);
+
     return Consumer(
       builder: (context, watch, _){
 
         final authProvider = watch(authenticationProvider);
+        final exerciseListProvider = watch(exercisesProvider);
 
         return Scaffold(
+          floatingActionButton: isPlaying == true && isMainPage == false
+          ? Padding(
+              padding: EdgeInsets.only(bottom: MQuery.height(0.09, context)),
+              child: FloatingActionButton(
+                backgroundColor: Palette.primary,
+                child: Icon(CupertinoIcons.checkmark_alt, color: Colors.white),
+                onPressed: (){
+                  if(id != ""){
+                    watch(setExerciseCompleteProvider(id));
+                    setState(() {
+                      isMainPage = !isMainPage;                      
+                    });
+                  }
+                },
+              ),
+            )
+          : SizedBox(),
           bottomSheet: BottomSheet(
             onClosing: (){},
             builder: (context){
@@ -117,7 +136,13 @@ class _ExercisesPageState extends State<ExercisesPage> {
                         IconButton(
                           icon: Icon(CupertinoIcons.stop_fill, color: Colors.white),
                           onPressed: (){
-                            _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
+                            if(isPlaying){
+                              _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
+                              setState(() {
+                                isPlaying = false;                                
+                              });
+                              widget.callback();
+                            }
                           },
                         ),
                         SizedBox(width: MQuery.width(0.01, context)),
@@ -223,48 +248,63 @@ class _ExercisesPageState extends State<ExercisesPage> {
                         MQuery.height(0.025, context),
                         MQuery.height(0.04, context),
                       ),
-                      child: Column(
-                        children: [
-                          SizedBox(height: MQuery.height(0.01, context)),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      child: exerciseListProvider.when(
+                        data: (value){
+
+                          int isCompletedCount = 0;
+                          value.forEach((element) {
+                            if(element.isCompleted){
+                              isCompletedCount++;
+                            }
+                          });
+
+                          return Column(
                             children: [
-                              Font.out("Exercises", fontWeight: FontWeight.bold, fontSize: 18),     
-                              Font.out("0/10", fontWeight: FontWeight.bold, fontSize: 18),
+                              SizedBox(height: MQuery.height(0.01, context)),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Font.out("Exercises", fontWeight: FontWeight.bold, fontSize: 18),     
+                                  Font.out("$isCompletedCount / ${value.length}", fontWeight: FontWeight.bold, fontSize: 18),
+                                ],
+                              ),
+                              Container(
+                                height: MQuery.height(0.5, context),
+                                child: ListView.builder(
+                                  physics: BouncingScrollPhysics(),
+                                  itemExtent: MQuery.height(0.125, context),
+                                  itemCount: value.length, //TBA
+                                  itemBuilder: (context, index){
+                                    return Container(
+                                      child: ExerciseTile(
+                                        callback: (){
+                                          setState(() {
+                                            isMainPage = !isMainPage;     
+                                            title = value[index].title;
+                                            reps = value[index].reps;
+                                            set = value[index].sets;
+                                            rest = value[index].rest;
+                                            comment = value[index].comment;
+                                            videoURL = value[index].videoURL;
+                                            id = value[index].id;                                   
+                                          });
+                                        },
+                                        isCompleted: value[index].isCompleted,
+                                        title:  value[index].title,
+                                        reps: value[index].reps,
+                                        set: value[index].sets,
+                                        rest: value[index].rest,
+                                        imageURL: 'https://img.youtube.com/vi/${value[index].videoURL}/0.jpg',
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
                             ],
-                          ),
-                          Container(
-                            height: MQuery.height(0.5, context),
-                            child: ListView.builder(
-                              physics: BouncingScrollPhysics(),
-                              itemExtent: MQuery.height(0.125, context),
-                              itemCount: 10, //TBA
-                              itemBuilder: (context, index){
-                                return Container(
-                                  child: ExerciseTile(
-                                    callback: (){
-                                      setState(() {
-                                        isMainPage = !isMainPage;     
-                                        title = "Goblet Squat"; //TBA, JADI NANTI INI DIISI OLEH DATANYA VIDEO YANG AKAN DI INJECT
-                                        reps = 1;
-                                        set = 2;
-                                        rest = 3;
-                                        comment = "You got this!";
-                                        videoURL = "X0qC1k0Zi6k";                                     
-                                      });
-                                    },
-                                    isCompleted: false,
-                                    title: "Goblet Squat",
-                                    reps: 15,
-                                    set: 1,
-                                    rest: 60,
-                                    imageURL: "imago mundi",
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        ],
+                          );
+                        },
+                        loading: () => Center(child: CircularProgressIndicator(backgroundColor: Palette.primary)),
+                        error: (_,__) => SizedBox(),
                       )
                     )
                   )
@@ -282,97 +322,104 @@ class _ExercisesPageState extends State<ExercisesPage> {
                     });
                   }),
                 ),
-                body: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Expanded(
-                        flex: 8,
-                        child: Container(
-                          width: double.infinity,
-                          child: YoutubePlayerControllerProvider( // Provides controller to all the widget below it.
-                            controller: _controller,
-                            child: YoutubePlayerIFrame(
-                              aspectRatio: 16 / 9,
+                body: SingleChildScrollView(
+                  child: Container(
+                    height: MQuery.height(0.95, context),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Expanded(
+                          flex: 7,
+                          child: Container(
+                            width: double.infinity,
+                            child: YoutubePlayerControllerProvider( // Provides controller to all the widget below it.
+                              controller: _controller,
+                              child: YoutubePlayerIFrame(
+                                aspectRatio: 16 / 9,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                        flex: 13,
-                        child: Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.all(MQuery.height(0.03, context)),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Font.out(
-                                title,
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              SizedBox(height: MQuery.height(0.02, context)),
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: MQuery.height(0.05, context),
-                                  vertical: MQuery.height(0.01, context)
+                        Expanded(
+                          flex: 15,
+                          child: Container(
+                            width: double.infinity,
+                            padding: EdgeInsets.all(MQuery.height(0.03, context)),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Font.out(
+                                  title,
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                height: MQuery.height(0.1, context),
-                                decoration: BoxDecoration(
-                                  color: Palette.formColor,
-                                  borderRadius: BorderRadius.all(Radius.circular(5))
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Font.out(set.toString(), fontSize: 18, color: Palette.primary, fontWeight: FontWeight.bold),
-                                        Font.out("sets", fontSize: 14)
-                                      ],
-                                    ),
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Font.out(reps.toString(), fontSize: 18, color: Palette.primary, fontWeight: FontWeight.bold),
-                                        Font.out("reps", fontSize: 14)
-                                      ],
-                                    ),
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Font.out(rest.toString(), fontSize: 18, color: Palette.primary, fontWeight: FontWeight.bold),
-                                        Font.out("rest", fontSize: 14)
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: MQuery.height(0.04, context)),
-                              Font.out(
-                                "Comment",
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              SizedBox(height: MQuery.height(0.01, context)),
-                              SingleChildScrollView(
-                                child: Linkify(
-                                  text: comment,
-                                  textAlign: TextAlign.start,
-                                  style: Font.style(
-                                    color: Colors.black,
-                                    fontSize: 16,
+                                SizedBox(height: MQuery.height(0.02, context)),
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: MQuery.height(0.05, context),
+                                    vertical: MQuery.height(0.01, context)
+                                  ),
+                                  height: MQuery.height(0.1, context),
+                                  decoration: BoxDecoration(
+                                    color: Palette.formColor,
+                                    borderRadius: BorderRadius.all(Radius.circular(5))
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Font.out(set.toString(), fontSize: 18, color: Palette.primary, fontWeight: FontWeight.bold),
+                                          Font.out("sets", fontSize: 14)
+                                        ],
+                                      ),
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Font.out(reps.toString(), fontSize: 18, color: Palette.primary, fontWeight: FontWeight.bold),
+                                          Font.out("reps", fontSize: 14)
+                                        ],
+                                      ),
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Font.out(rest.toString(), fontSize: 18, color: Palette.primary, fontWeight: FontWeight.bold),
+                                          Font.out("rest", fontSize: 14)
+                                        ],
+                                      )
+                                    ],
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
+                                SizedBox(height: MQuery.height(0.04, context)),
+                                Font.out(
+                                  "Comment",
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                SizedBox(height: MQuery.height(0.01, context)),
+                                Container(
+                                  height: MQuery.height(0.275, context),
+                                  child: SingleChildScrollView(
+                                    physics: BouncingScrollPhysics(),
+                                    child: Linkify(
+                                      text: comment,
+                                      textAlign: TextAlign.start,
+                                      style: Font.style(
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
                         )
-                      )
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               );

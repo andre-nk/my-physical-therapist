@@ -10,3 +10,5 @@ part "auth_service.dart";
 part "user_service.dart";
 part "general_content_services.dart";
 part "weight_tracker_services.dart";
+part "exercises_services.dart";
+part "event_services.dart";

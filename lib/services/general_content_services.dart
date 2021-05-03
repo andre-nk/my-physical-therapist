@@ -13,11 +13,15 @@ class GeneralContentServices{
     );
   }
 
-  List<double> _userScaleMapper(DocumentSnapshot doc){
-    List<double> out = [];
+  List<dynamic> _userScaleMapper(DocumentSnapshot doc){
+    List<dynamic> out = [];
 
     doc.data()!.forEach((key, value) {
-      out.add(value.toDouble());
+      if(value is double){
+        out.add(value.toDouble());
+      } else {
+        out.add(value);
+      }
     });
 
     return out;
@@ -34,6 +38,17 @@ class GeneralContentServices{
       });
   }
 
+  Future<void> userPainDescriptionSetter(String description){
+    return _firestore
+      .collection("users")
+      .doc(_auth.currentUser!.uid)
+      .collection("general-pages")
+      .doc("user-scale")
+      .update({
+        "description": description
+      });
+  }
+
   Stream<GeneralContentModel> generalContentModelGetter(String title){
     return _firestore
       .collection("users")
@@ -44,7 +59,7 @@ class GeneralContentServices{
       .map(_generalContentModelMapper);
   }
 
-  Stream<List<double>> get userScaleGetter{
+  Stream<List<dynamic>> get userScaleGetter{
     return _firestore
       .collection("users")
       .doc(_auth.currentUser!.uid)

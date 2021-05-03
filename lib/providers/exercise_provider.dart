@@ -1,22 +1,15 @@
 part of "provider.dart";
 
-final StopWatchTimer _stopWatchTimer = StopWatchTimer(
-  mode: StopWatchMode.countUp,
-  // onChange: (value) => print('onChange $value'),
-  // onChangeRawSecond: (value) => print('onChangeRawSecond $value'),
-  // onChangeRawMinute: (value) => print('onChangeRawMinute $value'),
-);
+final exercisesProvider = StreamProvider.autoDispose<List<ExerciseModel>>((ref){
+  final exercisesServiceProvider = ref.watch(Provider<ExercisesService>((ref) => ExercisesService(
+    ref.watch(firebaseFirestoreProvider),
+    ref.watch(firebaseAuthProvider)
+  )));
 
-final exerciseControlProvider = Provider<ExerciseControl>((ref){
-  return ExerciseControl();
+  return exercisesServiceProvider.exerciseListGetter;
 });
 
-class ExerciseControl{
-  Future<void> startTimer() async {
-    _stopWatchTimer.onExecute.add(StopWatchExecute.start);
-  }
-
-  Future<void> pauseTimer() async {
-    _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
-  }
-} 
+final setExerciseCompleteProvider = Provider.family<void, String>((ref, id) => ExercisesService(
+  ref.watch(firebaseFirestoreProvider),
+  ref.watch(firebaseAuthProvider)
+).completeExercise(id));

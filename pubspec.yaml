@@ -54,9 +54,10 @@ dev_dependencies:
 
 flutter_native_splash:
   color: "#fffffc"
-  image: "assets/logo.png"
+  image: "assets/splash.png"
   android: true
   ios: true
+  android_gravity: center
 
 flutter_icons:
   image_path: "assets/icon.png"
