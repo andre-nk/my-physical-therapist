@@ -5,10 +5,10 @@ class ChatTile extends StatelessWidget {
   final NetworkImage avatar;
   final String name;
   final String message;
-  final DateTime dateTime;
+  final DateTime? dateTime;
   final void Function() callback;
 
-  const ChatTile({required this.avatar, required this.name, required this.message, required this.dateTime, required this.callback});
+  const ChatTile({required this.avatar, required this.name, required this.message, this.dateTime, required this.callback});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class ChatTile extends StatelessWidget {
         textAlign: TextAlign.left
       ),
       trailing: Font.out(
-        DateFormat("HH:mm").format(dateTime),
+        dateTime == null ? "" : DateFormat("HH:mm").format(dateTime ?? DateTime.now()),
         fontSize: 14,
         fontWeight: FontWeight.normal,
         textAlign: TextAlign.left

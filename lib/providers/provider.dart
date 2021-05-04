@@ -11,3 +11,4 @@ part "exercise_provider.dart";
 part "general_content_provider.dart";
 part "weight_tracker_provider.dart";
 part "event_provider.dart";
+part "chat_provider.dart";

@@ -12,3 +12,4 @@ part "general_content_services.dart";
 part "weight_tracker_services.dart";
 part "exercises_services.dart";
 part "event_services.dart";
+part "chat_services.dart";
