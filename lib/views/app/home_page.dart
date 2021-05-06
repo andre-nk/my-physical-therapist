@@ -25,6 +25,8 @@ class _HomePageState extends State<HomePage> {
         final exerciseListProvider = watch(exercisesProvider);
         final eventProvider = watch(eventListProvider);
 
+        print(eventProvider);
+
         return Scaffold(
             body: SingleChildScrollView(
               physics: BouncingScrollPhysics(),

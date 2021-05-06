@@ -2,9 +2,8 @@ part of "service.dart";
 
 class EventServices{
   final FirebaseFirestore _firestore;
-  final FirebaseAuth _auth;
 
-  EventServices(this._firestore, this._auth);
+  EventServices(this._firestore);
 
   List<EventModel> _eventModelListMapper(QuerySnapshot snapshot){
     List<EventModel> out = [];
@@ -25,9 +24,7 @@ class EventServices{
 
   Stream<List<EventModel>> get eventModelList{
     return _firestore
-      .collection("users")
-      .doc(_auth.currentUser!.uid)
-      .collection("event-pages")
+      .collection("events")
       .snapshots()
       .map(_eventModelListMapper);
   }

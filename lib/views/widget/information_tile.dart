@@ -4,14 +4,15 @@ class InformationTile extends StatelessWidget {
 
   final String title;
   final String content;
+  final bool shrink;
 
-  const InformationTile({Key? key, required this.title, required this.content}) : super(key: key);
+  const InformationTile({Key? key, required this.title, required this.content, required this.shrink}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: MQuery.height(0.15, context),
+      height: shrink ? MQuery.height(0.15, context) : MQuery.height(0.3, context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -33,12 +34,17 @@ class InformationTile extends StatelessWidget {
               vertical: MQuery.height(0.025, context),
               horizontal: MQuery.height(0.02, context)
             ),
-            child: Font.out(
-              content,
-              overrideMaxline: true,
-              textAlign: TextAlign.start,
-              fontSize: 18,
-              fontWeight: FontWeight.normal
+            child: Container(
+              height: shrink ? MQuery.height(0.035, context) : MQuery.height(0.2, context),
+              child: SingleChildScrollView(
+                child: Font.out(
+                  content,
+                  overrideMaxline: true,
+                  textAlign: TextAlign.start,
+                  fontSize: 18,
+                  fontWeight: FontWeight.normal
+                ),
+              ),
             ),
           )
         ],
