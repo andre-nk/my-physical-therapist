@@ -1,6 +1,6 @@
 {
-    "name": "my_physical_therapist",
-    "short_name": "my_physical_therapist",
+    "name": "my_physical_therapist_admin",
+    "short_name": "my_physical_therapist_admin",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

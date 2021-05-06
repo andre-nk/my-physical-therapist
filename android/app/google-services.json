@@ -37,6 +37,57 @@
             {
               "client_id": "250491957782-keuikkjdiomn7qpd57ndilifsb61ourl.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "250491957782-dbshdatrl4tmq1eurvsn278ol0bt6agl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.myphysicaltherapist"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:250491957782:android:7e1f701b9f8db30c8a3b37",
+        "android_client_info": {
+          "package_name": "com.example.my_physical_therapist_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "250491957782-vpj7fpe67qego72lq27n708vujcjoonk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.my_physical_therapist_admin",
+            "certificate_hash": "b498206ef76c0b13d56e69b2da083dad13bf32f2"
+          }
+        },
+        {
+          "client_id": "250491957782-keuikkjdiomn7qpd57ndilifsb61ourl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeshoqJ3nxV7dKgp3VwLAeGZ9yQL6BozE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "250491957782-keuikkjdiomn7qpd57ndilifsb61ourl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "250491957782-dbshdatrl4tmq1eurvsn278ol0bt6agl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.myphysicaltherapist"
+              }
             }
           ]
         }

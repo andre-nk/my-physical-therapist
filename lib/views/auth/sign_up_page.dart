@@ -108,7 +108,6 @@ class _SignUpPageState extends State<SignUpPage> {
                               ).whenComplete(() async {
                                 if(authProvider.auth.currentUser?.uid != null){
                                    await userFirestoreProvider.createUserData(
-                                    authProvider.auth.currentUser?.uid ?? "",
                                     name:  authProvider.auth.currentUser?.displayName ?? ""
                                   );
                                 }

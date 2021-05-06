@@ -4,7 +4,6 @@ class AuthenticationService with ChangeNotifier {
   AuthenticationService({required this.auth});
   final FirebaseAuth auth;
   final GoogleSignIn googleSignIn = GoogleSignIn();
-  final facebookSignIn = FacebookLogin();
   bool isLoading = false;
   dynamic error;
 
@@ -92,35 +91,5 @@ class AuthenticationService with ChangeNotifier {
           snackbar
         )
       });
-  }
-
-  //FACEBOOK
-  Future<void> signInWithFacebook(BuildContext context, SnackBar snackbar) async {
-    final result = await facebookSignIn.logIn(permissions: [
-      FacebookPermission.publicProfile,
-      FacebookPermission.email,
-    ]);
-
-    switch (result.status) {
-      case FacebookLoginStatus.success:
-        await signInWithFacebookHandler(result);
-        break;
-      case FacebookLoginStatus.cancel:
-        ScaffoldMessenger.of(context).showSnackBar(snackbar);
-        break;
-      case FacebookLoginStatus.error:
-        print(FacebookLoginStatus.error);
-        break;
-    }
-  }
-
-  Future signInWithFacebookHandler(FacebookLoginResult _result) async {
-    isLoading = true;
-    notifyListeners();
-      FacebookAccessToken? _accessToken = _result.accessToken;
-      AuthCredential _credential = FacebookAuthProvider.credential(_accessToken?.token ?? "");
-      await FirebaseAuth.instance.signInWithCredential(_credential);
-    isLoading = false;
-    notifyListeners();
   }
 }

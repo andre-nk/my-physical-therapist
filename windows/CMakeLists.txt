@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
-project(my_physical_therapist LANGUAGES CXX)
+project(my_physical_therapist_admin LANGUAGES CXX)
 
-set(BINARY_NAME "my_physical_therapist")
+set(BINARY_NAME "my_physical_therapist_admin")
 
 cmake_policy(SET CMP0063 NEW)
 

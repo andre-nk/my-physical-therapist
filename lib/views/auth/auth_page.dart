@@ -4,13 +4,6 @@ class AuthPage extends ConsumerWidget {
     
     final authProvider = watch(authenticationProvider);
 
-    final String facebookAssetName = 'assets/facebook.svg';
-    final Widget facebookSVG = SvgPicture.asset(
-      facebookAssetName,
-      height: MQuery.height(0.055, context),
-      semanticsLabel: 'Acme Logo'
-    );
-
     final String googleAssetName = 'assets/google.svg';
     final Widget googleSVG = SvgPicture.asset(
       googleAssetName,
@@ -39,91 +32,39 @@ class AuthPage extends ConsumerWidget {
             Expanded(
               flex: 8,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
                     flex: 1,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          flex: 5,
-                          child: Container(
-                            height: MQuery.height(0.075, context),
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.only(
-                                  left: MQuery.width(0.0075, context),
-                                  right: MQuery.width(0.025, context)
-                                ),
-                                primary: Palette.secondary,
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50.0)
-                                )
-                              ),
-                              onPressed: () async {
-                                await authProvider.signInWithFacebook(
-                                  context,
-                                  SnackBar(
-                                    backgroundColor: Palette.secondary,
-                                    content: Font.out(
-                                      "You've cancel the Facebook sign-in",
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold
-                                    ),
-                                  )
-                                ); 
-                              },
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  facebookSVG,
-                                  Font.out(
-                                    "Facebook",
-                                    fontSize: 20, fontWeight: FontWeight.bold
-                                  )
-                                ],
-                              ),
-                            ),
+                    child: Container(
+                      height: MQuery.height(0.065, context),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.only(
+                            right: MQuery.width(0.025, context)
                           ),
+                          primary: Palette.secondary,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50.0)
+                          )
                         ),
-                        Spacer(),
-                        Expanded(
-                          flex: 5,
-                          child: Container(
-                            height: MQuery.height(0.075, context),
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.only(
-                                  right: MQuery.width(0.025, context)
-                                ),
-                                primary: Palette.secondary,
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50.0)
-                                )
-                              ),
-                              onPressed: () async {
-                                await authProvider.signUpWithGoogle();
-                              },
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: [
-                                  googleSVG,
-                                  Font.out(
-                                    "Google",
-                                    fontSize: 20, fontWeight: FontWeight.bold
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
+                        onPressed: () async {
+                          await authProvider.signUpWithGoogle();
+                        },
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            googleSVG,
+                            SizedBox(width: MQuery.width(0.03, context),),
+                            Font.out(
+                              "Google",
+                              fontSize: 22, fontWeight: FontWeight.bold
+                            )
+                          ],
+                        ),
+                      ),         
                     ),
                   ),
                   Expanded(

@@ -2,8 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
-import 'package:my_physical_therapist/providers/provider.dart';
-import 'package:my_physical_therapist/views/view.dart';
+import 'package:my_physical_therapist_admin/providers/provider.dart';
+import 'package:my_physical_therapist_admin/views/view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'My Physical Therapist',
+      title: 'My Physical Therapist Admin',
       theme: ThemeData(
         primarySwatch: MaterialColor(0xff2B4784, color),
         primaryColor: MaterialColor(0xff2B4784, color),
@@ -45,7 +45,6 @@ class MyApp extends StatelessWidget {
       home: Authenticator(),
       routes: {
         '/auth': (context) => AuthPage(),
-        '/home': (context) => DefaultPage(),
       },
     );
   }
@@ -72,5 +71,4 @@ class Authenticator extends ConsumerWidget {
       ),
     );
   }
-
 }

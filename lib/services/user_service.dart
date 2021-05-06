@@ -5,12 +5,13 @@ class UserService{
   final FirebaseAuth auth;
   final FirebaseFirestore firestore;
 
-  Future<void> createUserData(String uid, {String? name}){
+  Future<void> createUserData({String? name}){
     return firestore
-      .collection("users")
-      .doc(uid)
+      .collection("admins")
+      .doc(auth.currentUser!.uid)
       .set({
-        "name": name ?? ""
+        "name": name ?? "",
+        "profilePicture": auth.currentUser!.photoURL
       });
   }
 

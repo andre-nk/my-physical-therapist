@@ -1,4 +1,4 @@
-package com.example.my_physical_therapist
+package com.example.my_physical_therapist_admin
 
 import io.flutter.embedding.android.FlutterActivity
 
