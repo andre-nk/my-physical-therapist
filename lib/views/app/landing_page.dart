@@ -173,7 +173,7 @@ class _LandingPageState extends State<LandingPage> {
                                   child: SubHeadingMore(
                                     title: "Today's event",
                                     callback: (){
-                                      // Get.to(() => EventPage(), transition: Transition.cupertino);
+                                      Get.to(() => EventPage(), transition: Transition.cupertino);
                                     },
                                   ),
                                 ),

@@ -5,6 +5,20 @@ class EventServices{
 
   EventServices(this._firestore);
 
+  Future<void> addEvent(EventModel eventModel){
+    return _firestore
+      .collection("events")
+      .doc()
+      .set({
+        "description": eventModel.description,
+        "end": DateFormat("dd MMMM yyyy HH:mm").format(eventModel.end),
+        "start": DateFormat("dd MMMM yyyy HH:mm").format(eventModel.start),
+        "media": eventModel.media,
+        "speaker": eventModel.speaker,
+        "title": eventModel.title
+      });
+  }
+
   List<EventModel> _eventModelListMapper(QuerySnapshot snapshot){
     List<EventModel> out = [];
 
