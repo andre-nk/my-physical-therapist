@@ -58,7 +58,7 @@ class Authenticator extends ConsumerWidget {
     return authStateChanges.when(
       data: (user){
         return user != null
-          ? DefaultPage()
+          ? LandingPage()
           : AuthPage();
       },
       loading: () => const Scaffold(

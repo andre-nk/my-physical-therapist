@@ -16,7 +16,7 @@ class _SignUpPageState extends State<SignUpPage> {
       builder: (context, watch, _){
         
         final authProvider = watch(authenticationProvider);
-        final userFirestoreProvider = watch(userProvider);
+        final adminDataProvider = watch(adminDataCreatorProvider);
         
         return Scaffold(
           resizeToAvoidBottomInset: true,
@@ -107,7 +107,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 )
                               ).whenComplete(() async {
                                 if(authProvider.auth.currentUser?.uid != null){
-                                   await userFirestoreProvider.createUserData(
+                                   await adminDataProvider.createAdminData(
                                     name:  authProvider.auth.currentUser?.displayName ?? ""
                                   );
                                 }

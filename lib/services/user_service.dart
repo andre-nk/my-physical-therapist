@@ -5,14 +5,14 @@ class UserService{
   final FirebaseAuth auth;
   final FirebaseFirestore firestore;
 
-  Future<void> createUserData({String? name}){
+  Future<void> updateUserAdminHandler(String userUID, String adminUID){
     return firestore
-      .collection("admins")
-      .doc(auth.currentUser!.uid)
-      .set({
-        "name": name ?? "",
-        "profilePicture": auth.currentUser!.photoURL
-      });
+      .collection("users")
+      .doc(userUID)
+      .update({
+        "adminHandler": adminUID
+      }
+    );
   }
 
   UserModel userModelMapper(DocumentSnapshot doc){
@@ -44,11 +44,31 @@ class UserService{
     );
   }
 
+  List<UserModelSimplified> userListMapper(QuerySnapshot snapshot){
+    List<UserModelSimplified> out = [];
+    snapshot.docs.forEach((doc) {
+      out.add(UserModelSimplified(
+        uid: doc.id,
+        name: doc["name"],
+        adminHandler: doc["adminHandler"],
+        photoURL: doc["photoURL"]
+      ));
+    });
+    return out;
+  }
+
   Stream<UserModel> get userModelGetter{
     return firestore
       .collection("users")
       .doc(auth.currentUser!.uid)
       .snapshots()
       .map(userModelMapper);
+  }
+
+  Stream<List<UserModelSimplified>> get userListGetter{
+    return firestore  
+      .collection("users")
+      .snapshots()
+      .map(userListMapper);
   }
 }

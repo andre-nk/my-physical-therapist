@@ -51,7 +51,8 @@ class ChatServices{
       .map((event){
         return Admin( //TBA FOR PROFILE PICTURE
           name: event["name"],
-          uid: event.id
+          photoURL: event["photoURL"],
+          uid: event.id,
         );
       });
   }

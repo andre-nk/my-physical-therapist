@@ -79,6 +79,20 @@ class UserModel{
   }
 }
 
+class UserModelSimplified{
+  String uid;
+  String name;
+  String photoURL;
+  String adminHandler;
+
+  UserModelSimplified({required this.uid, required this.name, required this.photoURL, required this.adminHandler}){
+    this.uid = uid;
+    this.name = name;
+    this.photoURL = photoURL;
+    this.adminHandler = adminHandler;
+  }
+}
+
 class MedicationHistory{
   String medications;
   String dosage;

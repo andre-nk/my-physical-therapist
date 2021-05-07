@@ -35,9 +35,8 @@ class AuthPage extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
-                    flex: 1,
+                    flex: 4,
                     child: Container(
-                      height: MQuery.height(0.065, context),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.only(
@@ -68,7 +67,7 @@ class AuthPage extends ConsumerWidget {
                     ),
                   ),
                   Expanded(
-                    flex: 1,
+                    flex: 5,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
