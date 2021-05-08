@@ -24,8 +24,20 @@ class AuthPage extends ConsumerWidget {
               flex: 14,
               child: Container(
                 width: MQuery.width(0.45, context),
-                child: Image(
-                  image: AssetImage("assets/logo.png"),
+                child: Stack(
+                  children: [
+                    Center(
+                      child: Image(
+                        image: AssetImage("assets/logo.png"),
+                      ),
+                    ),
+                    Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(top: MQuery.height(0.275, context)),
+                        child: Font.out("Admin Panel Version", fontWeight: FontWeight.bold, fontSize: 24, color: Palette.primary),
+                      )
+                    ),
+                  ],
                 ),
               ),
             ),

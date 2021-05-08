@@ -44,6 +44,7 @@ class MyApp extends StatelessWidget {
       ),
       home: Authenticator(),
       routes: {
+        '/home': (context) => LandingPage(),
         '/auth': (context) => AuthPage(),
       },
     );

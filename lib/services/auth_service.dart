@@ -41,15 +41,19 @@ class AuthenticationService with ChangeNotifier {
   }
 
   //E-MAIL
-  Future<void> signUpWithEmailAndPassword(String email, String password, BuildContext context, SnackBar snackbar) async {
+  Future<void> signUpWithEmailAndPassword(String name, String email, String password, BuildContext context, SnackBar snackbar) async {
     isLoading = true;
     notifyListeners();
-    await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password)
+   UserCredential result =  await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password)
       .catchError((e){
         ScaffoldMessenger.of(context).showSnackBar(
           snackbar
         );
       });
+
+    result.user!.updateProfile(
+      displayName: name
+    );
     error = null;
     notifyListeners();
   }

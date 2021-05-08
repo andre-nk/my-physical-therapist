@@ -6,10 +6,28 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+
+  File? _image;
+  final picker = ImagePicker();
+
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
 
     TextEditingController emailController = TextEditingController();
+    TextEditingController nameController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
 
     return Consumer(
@@ -55,14 +73,27 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                   Expanded(
-                    flex: 7,
+                    flex: 3,
+                    child: GestureDetector(
+                      onTap: getImage,
+                      child: CircleAvatar(
+                        backgroundImage: _image == null ? AssetImage("assets/icon.png") as ImageProvider : FileImage(_image!),
+                        backgroundColor: Palette.secondary,
+                        maxRadius: MQuery.height(0.03, context),
+                      ),
+                    ),
+                  ),
+                  Spacer(flex: 1),
+                  Expanded(
+                    flex: 14,
                     child: LocalForm(
+                      nameController: nameController,
                       emailController: emailController,
                       passwordController: passwordController,
                     ) 
                   ),
                   Expanded(
-                    flex: 8,
+                    flex: 12,
                     child: Column(
                       children: [
                         Button(
@@ -92,8 +123,20 @@ class _SignUpPageState extends State<SignUpPage> {
                                   ),
                                 )
                               );
+                            } else if (nameController.text == ""){
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: Palette.secondary,
+                                  content: Font.out(
+                                    "Please fill out the name form",
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold
+                                  ),
+                                )
+                              );
                             } else {
                               authProvider.signUpWithEmailAndPassword(
+                                nameController.text,
                                 emailController.text, 
                                 passwordController.text,
                                 context,
@@ -139,7 +182,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                   Spacer(
-                    flex: 8,
+                    flex: 2,
                   )
                 ],
               ),

@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ import 'package:my_physical_therapist_admin/views/widgets/widget.dart';
 import 'package:my_physical_therapist_admin/providers/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:image_picker/image_picker.dart';
 
 part "auth/auth_page.dart";
 part "auth/sign_in_page.dart";
