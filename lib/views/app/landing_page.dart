@@ -207,14 +207,15 @@ class _LandingPageState extends State<LandingPage> {
                                             ),
                                             child: EventTile(
                                               callback: (){
-                                                // Get.to(() => EventItemPage(
-                                                //   title: filteredValue[index].title, 
-                                                //   speaker: filteredValue[index].speaker,
-                                                //   platform: filteredValue[index].media,
-                                                //   start: filteredValue[index].start,
-                                                //   end: filteredValue[index].end,
-                                                //   description: filteredValue[index].description,
-                                                // ));
+                                                Get.to(() => EventItemPage(
+                                                  uid: filteredValue[index].uid,
+                                                  title: filteredValue[index].title, 
+                                                  speaker: filteredValue[index].speaker,
+                                                  platform: filteredValue[index].media,
+                                                  start: filteredValue[index].start,
+                                                  end: filteredValue[index].end,
+                                                  description: filteredValue[index].description,
+                                                ));
                                               },
                                               title:  filteredValue[index].title,
                                               start: filteredValue[index].start,

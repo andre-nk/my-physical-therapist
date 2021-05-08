@@ -1,6 +1,17 @@
-part of "../view.dart";
+part of '../view.dart';
 
 class EventAdder extends StatefulWidget {
+
+  final String? uid;
+  final String? title;
+  final String? description;
+  final String? media;
+  final String? speaker;
+  final DateTime? startTime;
+  final DateTime? endTime;
+
+  EventAdder({this.uid, this.title, this.description, this.media, this.speaker, this.startTime, this.endTime});
+
   @override
   _EventAdderState createState() => _EventAdderState();
 }
@@ -16,10 +27,18 @@ class _EventAdderState extends State<EventAdder> {
   final format = DateFormat("dd MMMM yyyy HH:mm");
 
   @override
+  void initState() { 
+    super.initState();
+    titleController.text = widget.title ?? "";
+    descriptionController.text = widget.description ?? "";
+    mediaController.text = widget.media ?? "";
+    speakerController.text = widget.speaker ?? "";
+    startTime = widget.startTime ?? DateTime.now();
+    endTime = widget.endTime ?? DateTime.now();
+  }
+
+  @override
   Widget build(BuildContext context) {
-
-    print(startTime);
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Palette.primary,
@@ -70,7 +89,7 @@ class _EventAdderState extends State<EventAdder> {
                       fontWeight: FontWeight.w600,
                       fontSize: 18,
                       color: Palette.primary),
-                  hintText: "Event's title",
+                  hintText: "Event's title"
                 ),
               ),
               SizedBox(height: MQuery.height(0.025, context)),
@@ -196,7 +215,7 @@ class _EventAdderState extends State<EventAdder> {
                       fontWeight: FontWeight.w600,
                       fontSize: 18,
                       color: Palette.primary),
-                  hintText: "Event's start time",
+                  hintText: widget.startTime != null ? format.format(widget.startTime ?? DateTime.now()) : "Event's start time",
                 ),
                 initialValue: startTime,
                 format: format,
@@ -255,7 +274,7 @@ class _EventAdderState extends State<EventAdder> {
                       fontWeight: FontWeight.w600,
                       fontSize: 18,
                       color: Palette.primary),
-                  hintText: "Event's end time",
+                  hintText: widget.endTime != null ? format.format(widget.endTime ?? DateTime.now()) : "Event's end time",
                 ),
                 initialValue: endTime,
                 format: format,
@@ -294,16 +313,33 @@ class _EventAdderState extends State<EventAdder> {
                       if(titleController.text != "" && descriptionController.text != ""
                         && mediaController.text != "" && speakerController.text != ""
                       ){
-                        watch(eventAdderProvider(
-                          EventModel(
-                            end: endTime,
-                            start: startTime,
-                            speaker: speakerController.text,
-                            media: mediaController.text,
-                            title: titleController.text,
-                            description: descriptionController.text
-                          )
-                        ));
+                        if(widget.title != null){
+                          print('edit');
+                          watch(eventUpdaterProvider(
+                            EventModel(
+                              uid: widget.uid ?? "",
+                              end: endTime,
+                              start: startTime,
+                              speaker: speakerController.text,
+                              media: mediaController.text,
+                              title: titleController.text,
+                              description: descriptionController.text
+                            )
+                          ));
+                        } else {
+                          print('new');
+                          watch(eventAdderProvider(
+                            EventModel(
+                              uid: "",
+                              end: endTime,
+                              start: startTime,
+                              speaker: speakerController.text,
+                              media: mediaController.text,
+                              title: titleController.text,
+                              description: descriptionController.text
+                            )
+                          ));
+                        }
                         Get.back();
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -318,7 +354,7 @@ class _EventAdderState extends State<EventAdder> {
                         );
                       }
                     },
-                    title: "Add event",
+                    title: widget.title != null ? "Edit event" : "Add event",
                     color: Palette.primary,
                   );
                 },

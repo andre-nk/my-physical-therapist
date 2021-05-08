@@ -2,6 +2,7 @@ part of "../view.dart";
 
 class EventItemPage extends ConsumerWidget {
 
+  final String uid;
   final String title;
   final DateTime start;
   final DateTime end;
@@ -9,11 +10,26 @@ class EventItemPage extends ConsumerWidget {
   final String speaker;
   final String description;
 
-  EventItemPage({required this.title, required this.start, required this.end, required this.platform, required this.speaker, required this.description});
+  EventItemPage({required this.uid, required this.title, required this.start, required this.end, required this.platform, required this.speaker, required this.description});
 
   @override
   Widget build(BuildContext context, watch) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Palette.primary,
+        onPressed: (){
+          Get.to(() => EventAdder(
+            uid: uid,
+            title: title,
+            startTime: start,
+            endTime: end,
+            media: platform,
+            speaker: speaker,
+            description: description,
+          ), transition: Transition.cupertino);
+        },
+        child: Icon(CupertinoIcons.pencil),
+      ),
       body: SingleChildScrollView(
         child: Container(
           height: MQuery.height(0.95, context),

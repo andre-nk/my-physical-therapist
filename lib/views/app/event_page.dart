@@ -1,6 +1,7 @@
 part of "../view.dart";
 
 class Event {
+  final String uid;
   final String title;
   final String media;
   final String speaker;
@@ -8,6 +9,7 @@ class Event {
   final DateTime start;
   final DateTime end;
   const Event({
+    required this.uid,
     required this.title,
     required this.media,
     required this.speaker,
@@ -39,6 +41,7 @@ class _EventPageState extends State<EventPage> {
         eventProvider.whenData((value){
           value.forEach((element) {
             kEvent.add(Event(
+              uid: element.uid,
               title: element.title,
               start: element.start,
               end: element.end,
@@ -197,20 +200,47 @@ class _EventPageState extends State<EventPage> {
                                             padding: EdgeInsets.only(
                                                 bottom: MQuery.height(
                                                     0.025, context)),
-                                            child: EventTile(
-                                              callback: () {
-                                                Get.to(() => EventItemPage(
-                                                  title: value[index].title,
-                                                  speaker: value[index].speaker,
-                                                  platform: value[index].media,
-                                                  end: value[index].end,
-                                                  start: value[index].start,
-                                                  description: value[index].description,
-                                                ));
+                                            child: GestureDetector(
+                                              onLongPress: (){
+                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                  SnackBar(
+                                                    backgroundColor: Palette.secondary,
+                                                    content: Container(
+                                                      height: MQuery.height(0.055, context),
+                                                      child: Center(
+                                                        child: Row(
+                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                          children: [
+                                                            Font.out("Delete this event?", fontSize: 18, fontWeight: FontWeight.bold),
+                                                            IconButton(
+                                                              icon: Icon(CupertinoIcons.delete_solid, color: Colors.white),
+                                                              onPressed: (){
+                                                                watch(eventDeleterProvider(value[index].uid));
+                                                              },
+                                                            ),
+                                                          ],
+                                                        )
+                                                      ),
+                                                    ),
+                                                  )
+                                                );
                                               },
-                                              title: value[index].title,
-                                              end: value[index].end,
-                                              start: value[index].start,
+                                              child: EventTile(
+                                                callback: () {
+                                                  Get.to(() => EventItemPage(
+                                                    uid: value[index].uid,
+                                                    title: value[index].title,
+                                                    speaker: value[index].speaker,
+                                                    platform: value[index].media,
+                                                    end: value[index].end,
+                                                    start: value[index].start,
+                                                    description: value[index].description,
+                                                  ));
+                                                },
+                                                title: value[index].title,
+                                                end: value[index].end,
+                                                start: value[index].start,
+                                              ),
                                             ),
                                           );
                                         },

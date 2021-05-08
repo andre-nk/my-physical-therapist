@@ -1,6 +1,7 @@
 part of "model.dart";
 
 class EventModel {
+  String uid;
   String title;
   String media;
   String speaker;
@@ -9,6 +10,7 @@ class EventModel {
   DateTime end;
 
   EventModel({
+    required this.uid,
     required this.title,
     required this.media,
     required this.speaker,
@@ -16,6 +18,7 @@ class EventModel {
     required this.start,
     required this.end,
   }){
+    this.uid = uid;
     this.title = title;
     this.media = media;
     this.speaker = speaker;

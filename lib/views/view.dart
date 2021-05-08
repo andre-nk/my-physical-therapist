@@ -32,5 +32,5 @@ part 'app/event_page.dart';
 part 'subpage/user_list.dart';
 part 'subpage/admin_list.dart';
 part 'subpage/event_item_page.dart';
-part 'subpage/event_adder.dart';
+part 'subpage/event_editor.dart';
 // part 'sub_page/chat_contact_page.dart';
