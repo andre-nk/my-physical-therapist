@@ -10,6 +10,82 @@ class _LandingPageState extends State<LandingPage> {
   PageController _pageController = PageController();
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
 
+  File? _image;
+  String? _profilePictureURL;
+  final picker = ImagePicker();
+
+  Future getImage(ImageSource source) async {
+    final pickedFile = await picker.getImage(source: source);
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Palette.secondary,
+            content: Font.out(
+              "No image selected",
+              fontSize: 16,
+              fontWeight: FontWeight.bold
+            ),
+          )
+        );
+      }
+    });
+  }
+
+  void _pickedImage() {
+    Get.dialog(
+      Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+        child: Container(
+          height: MQuery.height(0.3, context),
+          width: MQuery.width(0.9, context),
+          padding: EdgeInsets.all(MQuery.height(0.04, context)),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children:[
+              Font.out(
+                "Choose profile picture via:",
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Palette.primary
+              ),
+              SizedBox(height: MQuery.height(0.05, context)),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 6,
+                    child: Button(
+                      height: MQuery.height(0.015, context),
+                      title: "Camera",
+                      color: Palette.primary,
+                      method: (){
+                        getImage(ImageSource.camera);
+                      },
+                    ),
+                  ),
+                  Spacer(),
+                  Expanded(
+                    flex: 6,
+                    child: Button(
+                      height: MQuery.height(0.015, context),
+                      title: "Gallery",
+                      color: Palette.primary,
+                      method: (){
+                        getImage(ImageSource.gallery);
+                      },
+                    ),
+                  ),
+                ],
+              )
+            ] 
+          ),
+        )
+      )
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -44,6 +120,19 @@ class _LandingPageState extends State<LandingPage> {
           }
         }
       );
+
+      if(_image != null){
+        watch(uploadAdminPhoto(_image ?? File(""))).whenData((value){
+          setState(() {
+            _profilePictureURL = value;            
+          });
+        });
+
+      authProvider.updateProfilePicture(
+          authProvider.auth.currentUser!,
+          _profilePictureURL ?? ""
+        );      
+      }
 
       return uid == "HKXJ5P3m9qUFCiPZSN96TyMLGoy1"
         ? Scaffold(
@@ -106,9 +195,7 @@ class _LandingPageState extends State<LandingPage> {
                                   ),
                                   child: CircleAvatar(
                                     radius: 22.5,
-                                    child: ClipOval(
-                                      child: Image.network(authProvider.auth.currentUser!.photoURL ?? "", fit: BoxFit.cover,)
-                                    ),
+                                    backgroundImage: NetworkImage(authProvider.auth.currentUser!.photoURL ?? ""),
                                     backgroundColor: Palette.secondary,
                                   ),
                                 )
@@ -299,12 +386,13 @@ class _LandingPageState extends State<LandingPage> {
                                   margin: EdgeInsets.only(
                                     left: 200
                                   ),
-                                  child: CircleAvatar(
-                                    radius: 22.5,
-                                    child: ClipOval(
-                                      child: Image.network(authProvider.auth.currentUser!.photoURL ?? "", fit: BoxFit.cover,)
+                                  child: GestureDetector(
+                                    onTap: _pickedImage,
+                                    child: CircleAvatar(
+                                      radius: 22.5,
+                                      backgroundImage: NetworkImage(authProvider.auth.currentUser!.photoURL ?? ""),
+                                      backgroundColor: Palette.secondary,
                                     ),
-                                    backgroundColor: Palette.secondary,
                                   ),
                                 )
                               ],
@@ -357,8 +445,6 @@ class _LandingPageState extends State<LandingPage> {
                                 List<UserModelSimplified> userList = value.where((element) =>
                                   element.adminHandler == uid
                                 ).toList();
-
-                                print(userList);
 
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,

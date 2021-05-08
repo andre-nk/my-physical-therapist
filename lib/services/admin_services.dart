@@ -4,6 +4,7 @@ class AdminServices{
   AdminServices({required this.auth, required this.firestore});
   final FirebaseAuth auth;
   final FirebaseFirestore firestore;
+  firebase_storage.FirebaseStorage storage = firebase_storage.FirebaseStorage.instance;
 
   Future<void> createAdminData({String? name}){
     return firestore
@@ -13,6 +14,25 @@ class AdminServices{
         "name": name ?? "",
         "profilePicture": auth.currentUser!.photoURL
       });
+  }
+
+  Future<String> uploadAdminPhotoURL(File sourceFile) async {
+
+    String uid = auth.currentUser!.uid;
+    String out = "";
+
+    try {
+      await storage
+        .ref('admins/$uid-profile.png')
+        .putFile(sourceFile);
+
+      out = await storage.ref('admins/$uid-profile.png').getDownloadURL();
+
+    } on FirebaseException catch (e) {
+      print(e);
+    }
+
+    return out;
   }
 
   Admin adminModelMapper(DocumentSnapshot doc){

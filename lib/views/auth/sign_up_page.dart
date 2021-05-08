@@ -6,23 +6,6 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-
-  File? _image;
-  final picker = ImagePicker();
-
-  Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
-
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('No image selected.');
-      }
-    });
-  }
-
-
   @override
   Widget build(BuildContext context) {
 
@@ -32,10 +15,9 @@ class _SignUpPageState extends State<SignUpPage> {
 
     return Consumer(
       builder: (context, watch, _){
-        
         final authProvider = watch(authenticationProvider);
         final adminDataProvider = watch(adminDataCreatorProvider);
-        
+
         return Scaffold(
           resizeToAvoidBottomInset: true,
           appBar: AppBar(
@@ -70,17 +52,6 @@ class _SignUpPageState extends State<SignUpPage> {
                           fontWeight: FontWeight.w800,
                           color: Palette.primary,
                           textAlign: TextAlign.center),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: GestureDetector(
-                      onTap: getImage,
-                      child: CircleAvatar(
-                        backgroundImage: _image == null ? AssetImage("assets/icon.png") as ImageProvider : FileImage(_image!),
-                        backgroundColor: Palette.secondary,
-                        maxRadius: MQuery.height(0.03, context),
-                      ),
                     ),
                   ),
                   Spacer(flex: 1),
