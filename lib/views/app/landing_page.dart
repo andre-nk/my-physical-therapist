@@ -194,9 +194,15 @@ class _LandingPageState extends State<LandingPage> {
                                     left: 200
                                   ),
                                   child: CircleAvatar(
-                                    radius: 22.5,
-                                    backgroundImage: NetworkImage(authProvider.auth.currentUser!.photoURL ?? ""),
-                                    backgroundColor: Palette.secondary,
+                                    maxRadius: 25,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                      ),
+                                      clipBehavior: Clip.antiAlias,
+                                      child: Image(image: NetworkImage(authProvider.auth.currentUser!.photoURL ?? "")),
+                                    ),
+                                    backgroundColor: Palette.primary,
                                   ),
                                 )
                               ],
@@ -364,7 +370,7 @@ class _LandingPageState extends State<LandingPage> {
             body: SingleChildScrollView(
               physics: NeverScrollableScrollPhysics(),
               child: Container(
-                height: MQuery.height(0.95, context),
+                height: MQuery.height(0.975, context),
                 child: Column(
                   children: [
                     Expanded(
@@ -455,7 +461,7 @@ class _LandingPageState extends State<LandingPage> {
                                       fontSize: 20,
                                     ),
                                     Container(
-                                      height: userList.length == 0 ? MQuery.height(0.075, context) : MQuery.height(0.275, context),
+                                      height: userList.length == 0 ? MQuery.height(0.075, context) : MQuery.height(0.215, context),
                                       child: userList.length == 0
                                       ? Center(
                                           child: Font.out(
@@ -469,7 +475,7 @@ class _LandingPageState extends State<LandingPage> {
                                         itemBuilder: (context, index){
                                           return ListTile(
                                             onTap: (){    
-                                              
+                                              Get.to(() => UserDefaultPage(userModelSimplified: userList[index]), transition: Transition.cupertino);
                                             },
                                             contentPadding: EdgeInsets.symmetric(
                                               vertical: MQuery.height(0.01, context)
@@ -477,8 +483,15 @@ class _LandingPageState extends State<LandingPage> {
                                             leading: Padding(
                                               padding: const EdgeInsets.only(right: 8.0),
                                               child: CircleAvatar(
+                                                maxRadius: 25,
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                  ),
+                                                  clipBehavior: Clip.antiAlias,
+                                                  child: Image(image: NetworkImage(userList[index].photoURL)),
+                                                ),
                                                 backgroundColor: Palette.primary,
-                                                backgroundImage: NetworkImage(userList[index].photoURL),
                                               ),
                                             ),
                                             title: Font.out(
@@ -507,9 +520,6 @@ class _LandingPageState extends State<LandingPage> {
                             Column(
                               children: [
                                 Container(
-                                  padding: EdgeInsets.only(
-                                    right: MQuery.height(0.04, context)
-                                  ),
                                   child: SubHeadingMore(
                                     title: "Today's event",
                                     callback: (){
@@ -534,7 +544,7 @@ class _LandingPageState extends State<LandingPage> {
                                           fontWeight: FontWeight.normal,
                                           color: Palette.minorTextColor))
                                     : Container(
-                                      height: MQuery.height(0.4, context),
+                                      height: MQuery.height(0.225, context),
                                       child: ListView.builder(
                                         physics: BouncingScrollPhysics(),
                                         scrollDirection: Axis.vertical,
@@ -542,7 +552,6 @@ class _LandingPageState extends State<LandingPage> {
                                         itemBuilder: (context, index){
                                           return Padding(
                                             padding: EdgeInsets.only(
-                                              right: MQuery.width(0.025, context),
                                               bottom: MQuery.height(0.025, context)
                                             ),
                                             child: EventTile(

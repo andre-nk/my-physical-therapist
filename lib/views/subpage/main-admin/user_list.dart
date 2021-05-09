@@ -1,4 +1,4 @@
-part of "../view.dart";
+part of '../../view.dart';
 
 class UserList extends StatefulWidget {
   @override
