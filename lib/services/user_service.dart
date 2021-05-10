@@ -15,6 +15,82 @@ class UserService{
     );
   }
 
+  Future<void> updateUserMedicationHistory(List table, String uid){
+    return firestore
+      .collection("users")
+      .doc(uid)
+      .update({
+        "medicationHistory": table
+      });
+  }
+
+  Future<void> updateUserAncilaryProcedures(List table, String uid){
+    return firestore
+      .collection("users")
+      .doc(uid)
+      .update({
+        "ancilaryProcedures": table
+      });
+  }
+
+  Future<void> updateUserGeneralInfo(UserModel userModel, String uid){
+    return firestore
+      .collection("users")
+      .doc(uid)
+      .update({
+        "environmentalHistory": userModel.environmentalHistory,
+        "admissionDate": DateFormat("dd MMMM yyyy HH:mm").format(userModel.admissionDate),
+        "type": userModel.type,
+        "informant": userModel.informant,
+        "illnessHistory": userModel.illnessHistory,
+        "diagnosis": userModel.diagnosis,
+        "occupation": userModel.occupation,
+        "sex": userModel.sex,
+        "age": userModel.age,
+        "address": userModel.address,
+        "pastMedicalHistory": userModel.pastMedicalHistory,
+        "civilStatus": userModel.civilStatus,
+        "name": userModel.name,
+        "nationality": userModel.nationality,
+        "religion": userModel.religion,
+        "handedness": userModel.handedness,
+        "complaint": userModel.complaint,
+        "familyHistory": userModel.familyHistory,
+        "caregiverGoal": userModel.caregiverGoal,
+        "ieDate":  DateFormat("dd MMMM yyyy HH:mm").format(userModel.ieDate),
+      });
+  }
+
+  Future<void> setUserGeneralInfo(UserModel userModel, String uid){
+    return firestore
+      .collection("users")
+      .doc(uid)
+      .set({
+        "environmentalHistory": userModel.environmentalHistory,
+        "admissionDate": DateFormat("dd MMMM yyyy HH:mm").format(userModel.admissionDate),
+        "type": userModel.type,
+        "informant": userModel.informant,
+        "illnessHistory": userModel.illnessHistory,
+        "diagnosis": userModel.diagnosis,
+        "occupation": userModel.occupation,
+        "sex": userModel.sex,
+        "age": userModel.age,
+        "address": userModel.address,
+        "pastMedicalHistory": userModel.pastMedicalHistory,
+        "civilStatus": userModel.civilStatus,
+        "name": userModel.name,
+        "nationality": userModel.nationality,
+        "religion": userModel.religion,
+        "handedness": userModel.handedness,
+        "complaint": userModel.complaint,
+        "familyHistory": userModel.familyHistory,
+        "caregiverGoal": userModel.caregiverGoal,
+        "ieDate":  DateFormat("dd MMMM yyyy HH:mm").format(userModel.ieDate),
+        "medicationHistory": [],
+        "ancilaryProcedures": [],
+      });
+  }
+
   UserModel userModelMapper(DocumentSnapshot doc){
     return UserModel(
       medicationHistory: doc["medicationHistory"],
@@ -39,7 +115,7 @@ class UserService{
       familyHistory: doc["familyHistory"],
       caregiverGoal: doc["caregiverGoal"],
       ieDate: DateFormat("dd MMMM yyyy HH:mm").parse(doc["ieDate"]),
-      ancilaryProcedure: doc["ancilaryProcedures"],
+      ancilaryProcedure:  doc["ancilaryProcedures"],
       environmentalHistory: doc["environmentalHistory"]
     );
   }
@@ -57,10 +133,10 @@ class UserService{
     return out;
   }
 
-  Stream<UserModel> get userModelGetter{
+  Stream<UserModel> userModelGetter(String uid){
     return firestore
       .collection("users")
-      .doc(auth.currentUser!.uid)
+      .doc(uid)
       .snapshots()
       .map(userModelMapper);
   }

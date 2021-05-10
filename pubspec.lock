@@ -99,6 +99,13 @@ packages:
       url: "https://pub.dev/"
     source: hosted
     version: "2.0.0"
+  editable:
+    dependency: "direct main"
+    description:
+      name: editable
+      url: "https://pub.dev/"
+    source: hosted
+    version: "2.0.0"
   equatable:
     dependency: transitive
     description:

@@ -7,11 +7,11 @@ final userProvider = Provider<UserService>(
   ),
 );
 
-final userModelProvider = StreamProvider.autoDispose<UserModel>((ref){
+final userModelProvider = StreamProvider.family<UserModel, String>((ref, uid){
   return UserService(
     auth: ref.watch(firebaseAuthProvider),
     firestore: ref.watch(firebaseFirestoreProvider)
-  ).userModelGetter;
+  ).userModelGetter(uid);
 });
 
 final userListProvider = StreamProvider.autoDispose<List<UserModelSimplified>>((ref){

@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'dart:io';
 
+import 'package:editable/editable.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +41,7 @@ part 'subpage/main-admin/user_list.dart';
 part 'subpage/main-admin/admin_list.dart';
 part 'subpage/regular-admin/patient_education_subpage.dart';
 part 'subpage/regular-admin/exercises_goal_detailed_page.dart';
+part 'subpage/regular-admin/editables_page.dart';
 part 'subpage/event_item_page.dart';
 part 'subpage/event_editor.dart';
 // part 'sub_page/chat_contact_page.dart';

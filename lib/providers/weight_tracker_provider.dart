@@ -10,9 +10,3 @@ final weightTrackerProvider = StreamProvider.autoDispose<List<WeightValue>>((ref
 
   return reference.weightValuesGetter;
 });
-
-final weightRecordAdderProvider = Provider.family<void, List<dynamic>>((ref, weightValue){
-  final reference = ref.watch(weightTrackerServiceProvider);
-  
-  reference.addWeightRecord(weightValue);
-});

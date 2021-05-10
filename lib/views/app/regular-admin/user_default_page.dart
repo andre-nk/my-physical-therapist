@@ -66,8 +66,8 @@ class _DefaultPageState extends State<UserDefaultPage> {
           items: [
             BottomNavigationBarItem(
               label: "a", 
-              icon: Icon(CupertinoIcons.doc_text_search, color: Palette.secondary, size: 24),
-              activeIcon: Icon(CupertinoIcons.doc_text_search, color: Palette.primary, size: 24)
+              icon: Icon(CupertinoIcons.doc, color: Palette.secondary, size: 24),
+              activeIcon: Icon(CupertinoIcons.doc_fill, color: Palette.primary, size: 24)
             ),
             BottomNavigationBarItem(
               label: "a", 
