@@ -23,7 +23,7 @@ class ChatServices{
   Future<void> chatAdder(String receiverUID, String message){
     return _firestore
       .collection("users")
-      .doc(_auth.currentUser!.uid)
+      .doc(receiverUID)
       .collection("chats")
       .doc()
       .set({
@@ -34,10 +34,10 @@ class ChatServices{
       });
   }
 
-  Stream<List<ChatModel>> chatListGetter (String adminUID){
+  Stream<List<ChatModel>> chatListGetter (String userUID){
     return _firestore
       .collection("users")
-      .doc(_auth.currentUser!.uid)
+      .doc(userUID)
       .collection("chats")
       .snapshots()
       .map(_chatListMapper);

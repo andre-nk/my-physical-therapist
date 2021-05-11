@@ -52,7 +52,7 @@ class _DefaultPageState extends State<UserDefaultPage> {
               UserPatientEducationPage(userModelSimplified: widget.userModelSimplified),
               UserHomePage(userModelSimplified: widget.userModelSimplified),
               UserGoalPage(widget.userModelSimplified),
-              UserHomePage(userModelSimplified: widget.userModelSimplified),
+              ChatContactPage(userModel: widget.userModelSimplified),
             ],
           ),
         ),

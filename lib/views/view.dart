@@ -35,7 +35,7 @@ part 'app/regular-admin/user_goal_page.dart';
 part 'app/regular-admin/exercises_goal_page.dart';
 part 'app/regular-admin/weight_tracker_page.dart';
 part 'app/regular-admin/pain_scale_page.dart';
-// part 'app/chat_page.dart';
+part 'app/regular-admin/chat_page.dart';
 // part 'app/exercises_page.dart';
 part 'subpage/main-admin/user_list.dart';
 part 'subpage/main-admin/admin_list.dart';
