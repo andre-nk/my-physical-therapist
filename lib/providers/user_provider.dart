@@ -13,3 +13,7 @@ final userModelProvider = StreamProvider.autoDispose<UserModel>((ref){
     firestore: ref.watch(firebaseFirestoreProvider)
   ).userModelGetter;
 });
+
+final uploadUserPhoto = FutureProvider.family<String, File>((ref, sourceFile){
+  return ref.watch(userProvider).uploadAdminPhotoURL(sourceFile);
+});

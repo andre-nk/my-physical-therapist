@@ -20,6 +20,7 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_plyr_iframe/youtube_plyr_iframe.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 
 part "auth/auth_page.dart";
 part "auth/sign_in_page.dart";

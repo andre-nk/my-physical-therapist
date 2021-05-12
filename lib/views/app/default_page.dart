@@ -37,7 +37,6 @@ class _DefaultPageState extends State<DefaultPage> {
         .get().then((value) async {
           if(!(value.exists)){
             await userFirestoreProvider.createUserData(
-              authProvider.auth.currentUser?.uid ?? "",
               name:  authProvider.auth.currentUser?.displayName ?? ""
             );
           }

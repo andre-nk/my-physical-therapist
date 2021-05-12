@@ -10,134 +10,186 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
+  final ScrollController scrollController = ScrollController();
+  final TextEditingController controller = TextEditingController();
+  void _scrollToBottom() {
+    if (scrollController.hasClients) {
+      scrollController.animateTo(scrollController.position.maxScrollExtent,
+          duration: Duration(milliseconds: 300), curve: Curves.easeIn);
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
+
+    WidgetsBinding.instance!.addPostFrameCallback((_) => _scrollToBottom());
+    double _height;
+
+    if(MediaQuery.of(context).viewInsets.bottom == 0){
+      _height = 0;
+    } else {
+      _height = MQuery.height(0.03, context);
+    }
+
     return Consumer(
       builder: (context, watch, _){
 
         final authProvider = watch(authenticationProvider);
-        final adminUIDListProvider = watch(adminUIDProvider("vZswfnkdArudOhMSw4Sr")); //TBA FROM USER MODEL
+        final userProvider = watch(userModelProvider);
 
-        return Scaffold(
-          body: SingleChildScrollView(
-            child: Container(
-              height: MQuery.height(0.95, context),
-              child: Column(
-                children: [
-                  Expanded(
-                    flex: 3,
-                    child: Header(
-                      content: Column(
-                        children: [
-                          AppBar(
-                            leadingWidth: MQuery.width(0.025, context),
-                            toolbarHeight: MQuery.height(0.065, context),
-                            leading: IconButton(
-                                    icon : Icon(CupertinoIcons.line_horizontal_3, size: 24),
-                                    onPressed: (){
-                                      widget.drawerKey.currentState!.openDrawer();
-                                    },
-                                  ),
-                            actions: [
-                              Container(
-                                height: MQuery.height(0.1, context),
-                                margin: EdgeInsets.only(
-                                  left: 200
+        return userProvider.when(
+          data: (value){
+            return watch(adminUIDProvider(value.adminHandler)).when(
+              data: (adminValue){
+
+                final chatProvider = watch(chatListProvider(adminValue.uid));
+
+                return Scaffold(
+                  appBar: AppBar(
+                    toolbarHeight: MQuery.height(0.1, context),
+                    elevation: 0,
+                    backgroundColor: Colors.white,
+                    leading: IconButton(
+                      icon: Icon(CupertinoIcons.chevron_left, color: Colors.black),
+                      onPressed: (){
+                        Get.back();
+                      },
+                    ),
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 0),
+                            child: CircleAvatar(
+                              maxRadius: 25,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
                                 ),
-                                child: CircleAvatar(
-                                  radius: 22.5,
-                                  child: ClipOval(
-                                    child: Image.network(authProvider.auth.currentUser!.photoURL ?? "", fit: BoxFit.cover,)
-                                  ),
-                                  backgroundColor: Palette.secondary,
-                                ),
-                              )
-                            ],
-                            backgroundColor: Colors.transparent,
-                            elevation: 0
-                          ),
-                          Container(
-                            height: MQuery.height(0.1, context),
-                            width: double.infinity,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Font.out(
-                                  "Chats",
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white,
-                                  fontSize: 32,
-                                  textAlign: TextAlign.start
-                                ),
-                              ],
+                                clipBehavior: Clip.antiAlias,
+                                child: Image(image: NetworkImage(authProvider.auth.currentUser!.photoURL ?? "")),
+                              ),
+                              backgroundColor: Palette.primary,
                             ),
+                          ),
+                        ),
+                        Spacer(flex: 1),
+                        Expanded(
+                          flex: 13,
+                          child: Font.out(
+                            adminValue.name,
+                            fontSize: 18, fontWeight: FontWeight.bold, textAlign: TextAlign.left, color: Colors.black
                           )
-                        ],
-                      ),
+                        )
+                      ],
                     ),
                   ),
-                  Expanded(
-                    flex: 7,
-                    child: Container(
-                      padding: EdgeInsets.fromLTRB(
-                        MQuery.height(0.02, context),
-                        MQuery.height(0.02, context),
-                        MQuery.height(0.02, context),
-                        MQuery.height(0.02, context)
-                      ),
-                      child: adminUIDListProvider.when(
-                        data: (value){
-                          return ListView.separated(
-                            physics: BouncingScrollPhysics(),
-                            itemCount: 1,
-                            separatorBuilder: (context, index) {
-                              return Divider();
-                            },
-                            itemBuilder: (context, index){
+                  body: Container(
+                    padding: EdgeInsets.fromLTRB(
+                      MQuery.height(0.025, context),
+                      MQuery.height(0.03, context),
+                      MQuery.height(0.025, context),
+                      _height
+                    ),
+                    child: Column(
+                      children: [
+                        chatProvider.when(
+                          data: (value){
 
-                              final chatProvider = watch(chatListProvider(value.uid));
+                            value.sort((a, b) => a.dateTime.compareTo(b.dateTime));
 
-                              return chatProvider.when(
-                                data: (chatValue){
-
-                                  chatValue.sort((a, b) => a.dateTime.compareTo(b.dateTime));
-
-                                  return Container(
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: MQuery.height(0.0025, context),
-                                      horizontal: MQuery.height(0.0175, context),
-                                    ),
-                                    child: ChatTile(
-                                      callback: (){
-                                        Get.to(() => ChatContactPage(
-                                          name: value.name,
-                                          avatar: NetworkImage("a"),
-                                          uid: value.uid
-                                        ), transition: Transition.cupertino);
-                                      },
-                                      name: value.name,
-                                      avatar: NetworkImage("a"),
-                                      message: chatValue.length > 0 ? chatValue.last.message : "",
-                                      dateTime: chatValue.length > 0 ? chatValue.last.dateTime : null,
-                                    ),
+                            return Expanded(
+                              flex: 8,
+                              child: ListView.builder( 
+                                controller: scrollController,
+                                physics: BouncingScrollPhysics(),
+                                itemCount: value.length,
+                                itemBuilder: (context, index){
+                                  return BubbleMessage(
+                                    uid: value[index].uid,
+                                    message: value[index].message,
+                                    dateTime: DateFormat("dd MMMM yyyy HH:mm").format(value[index].dateTime).toString(),
+                                    byUser: value[index].senderUID == authProvider.auth.currentUser!.uid
                                   );
                                 },
-                                loading: () => Center(child: CircularProgressIndicator(backgroundColor: Palette.primary)),
-                                error: (_,__) => SizedBox(),
-                              );
-                            },
-                          );
-                        },
-                        loading: () => Center(child: CircularProgressIndicator(backgroundColor: Palette.primary)),
-                        error: (_,__) => SizedBox(),
-                      )
-                    )
-                  )
-                ]
-              )
-            )
-          )
+                              )
+                            );
+                          },
+                          loading: () => Center(child: CircularProgressIndicator(backgroundColor: Palette.primary)),
+                          error: (_,__) => SizedBox(),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Container(
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.symmetric(
+                              // s
+                            ),
+                            child: TextField(
+                              minLines: 1,
+                              maxLines: 3,
+                              textCapitalization: TextCapitalization.sentences,
+                              keyboardType: TextInputType.multiline,
+                              controller: controller,
+                              style: Font.style(
+                                fontSize: 18
+                              ),
+                              decoration: new InputDecoration(
+                                suffixIcon: IconButton(
+                                  icon: Icon(Icons.send_rounded, color: Palette.primary),
+                                  onPressed: (){
+                                    if(controller.text != ""){
+                                      watch(addChatProvider(
+                                        ChatModel(
+                                          uid: "mock",
+                                          dateTime: DateTime.now(),
+                                          message: controller.text,
+                                          receiverUID: adminValue.uid,
+                                          senderUID: authProvider.auth.currentUser!.uid
+                                        )
+                                      ));
+                                    }
+                                    controller.clear();
+                                  },
+                                ),
+                                contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  vertical: 20
+                                ),
+                                focusedBorder: new OutlineInputBorder(
+                                  borderSide: BorderSide(color: Palette.primary, width: 1.5),
+                                  borderRadius: const BorderRadius.all(
+                                    const Radius.circular(10.0),
+                                  ),
+                                ),
+                                border: new OutlineInputBorder(
+                                  borderRadius: const BorderRadius.all(
+                                    const Radius.circular(10.0),
+                                  ),
+                                ),
+                                filled: true,
+                                hintStyle: new TextStyle(color: Colors.grey[800], fontSize: 18),
+                                hintText: "Type your message...",
+                                fillColor: Colors.white70
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                );
+              },
+              loading: () => Center(child: CircularProgressIndicator(backgroundColor: Palette.primary)),
+              error: (_,__) => SizedBox(),
+            );
+          },
+          loading: () => Center(child: CircularProgressIndicator(backgroundColor: Palette.primary)),
+          error: (_,__) => SizedBox(),
         );
       }
     );

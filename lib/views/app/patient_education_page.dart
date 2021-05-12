@@ -45,11 +45,15 @@ class _PatientEducationPageState extends State<PatientEducationPage> {
                                   left: 200
                                 ),
                                 child: CircleAvatar(
-                                  radius: 22.5,
-                                  child: ClipOval(
-                                    child: Image.network(authProvider.auth.currentUser!.photoURL ?? "", fit: BoxFit.cover,)
+                                  maxRadius: 25,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                    ),
+                                    clipBehavior: Clip.antiAlias,
+                                    child: Image(image: NetworkImage(authProvider.auth.currentUser!.photoURL ?? "")),
                                   ),
-                                  backgroundColor: Palette.secondary,
+                                  backgroundColor: Palette.primary,
                                 ),
                               )
                             ],
@@ -112,7 +116,7 @@ class _PatientEducationPageState extends State<PatientEducationPage> {
                           DefaultTile(
                             icons: Icon(CupertinoIcons.paperclip, color: Palette.primary),
                             callback: (){
-                              Get.to(() => PatientEducationSubPage("General \nInstructions"), transition: Transition.cupertino);
+                              Get.to(() => PatientEducationSubPage("General Instructions"), transition: Transition.cupertino);
                             },
                             title: "General Instructions",
                           )

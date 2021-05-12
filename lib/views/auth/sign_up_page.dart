@@ -11,6 +11,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
+    TextEditingController nameController = TextEditingController();
 
     return Consumer(
       builder: (context, watch, _){
@@ -55,14 +56,15 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                   Expanded(
-                    flex: 7,
+                    flex: 14,
                     child: LocalForm(
+                      nameController: nameController,
                       emailController: emailController,
                       passwordController: passwordController,
                     ) 
                   ),
                   Expanded(
-                    flex: 8,
+                    flex: 12,
                     child: Column(
                       children: [
                         Button(
@@ -92,8 +94,20 @@ class _SignUpPageState extends State<SignUpPage> {
                                   ),
                                 )
                               );
+                            } else if (nameController.text == ""){
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: Palette.secondary,
+                                  content: Font.out(
+                                    "Please fill out the name form",
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold
+                                  ),
+                                )
+                              );
                             } else {
                               authProvider.signUpWithEmailAndPassword(
+                                nameController.text,
                                 emailController.text, 
                                 passwordController.text,
                                 context,
@@ -108,8 +122,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               ).whenComplete(() async {
                                 if(authProvider.auth.currentUser?.uid != null){
                                    await userFirestoreProvider.createUserData(
-                                    authProvider.auth.currentUser?.uid ?? "",
-                                    name:  authProvider.auth.currentUser?.displayName ?? ""
+                                    name: authProvider.auth.currentUser?.displayName ?? ""
                                   );
                                 }
                                 Get.offAndToNamed("/home");     
@@ -140,7 +153,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                   Spacer(
-                    flex: 8,
+                    flex: 2,
                   )
                 ],
               ),

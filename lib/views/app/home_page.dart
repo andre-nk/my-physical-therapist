@@ -12,6 +12,83 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  File? _image;
+  String? _profilePictureURL;
+  final picker = ImagePicker();
+
+  Future getImage(ImageSource source) async {
+    final pickedFile = await picker.getImage(source: source);
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Palette.secondary,
+            content: Font.out(
+              "No image selected",
+              fontSize: 16,
+              fontWeight: FontWeight.bold
+            ),
+          )
+        );
+      }
+    });
+  }
+
+  void _pickedImage() {
+    Get.dialog(
+      Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+        child: Container(
+          height: MQuery.height(0.3, context),
+          width: MQuery.width(0.9, context),
+          padding: EdgeInsets.all(MQuery.height(0.04, context)),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children:[
+              Font.out(
+                "Choose profile picture via:",
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Palette.primary
+              ),
+              SizedBox(height: MQuery.height(0.05, context)),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 6,
+                    child: Button(
+                      height: MQuery.height(0.015, context),
+                      title: "Camera",
+                      color: Palette.primary,
+                      method: (){
+                        getImage(ImageSource.camera);
+                      },
+                    ),
+                  ),
+                  Spacer(),
+                  Expanded(
+                    flex: 6,
+                    child: Button(
+                      height: MQuery.height(0.015, context),
+                      title: "Gallery",
+                      color: Palette.primary,
+                      method: (){
+                        getImage(ImageSource.gallery);
+                      },
+                    ),
+                  ),
+                ],
+              )
+            ] 
+          ),
+        )
+      )
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer(
@@ -24,8 +101,22 @@ class _HomePageState extends State<HomePage> {
 
         final exerciseListProvider = watch(exercisesProvider);
         final eventProvider = watch(eventListProvider);
+        final userInstanceProvider = watch(userProvider);
 
-        print(eventProvider);
+        if(_image != null){
+          watch(uploadUserPhoto(_image ?? File(""))).whenData((value){
+            setState(() {
+              _profilePictureURL = value;            
+            });
+          });
+
+          userInstanceProvider.updateProfilePicture(
+            authProvider.auth.currentUser!,
+            _profilePictureURL ?? ""
+          );     
+        }
+
+        print(authProvider.auth.currentUser!.photoURL);
 
         return Scaffold(
             body: SingleChildScrollView(
@@ -53,12 +144,19 @@ class _HomePageState extends State<HomePage> {
                                   margin: EdgeInsets.only(
                                     left: 200
                                   ),
-                                  child: CircleAvatar(
-                                    radius: 22.5,
-                                    child: ClipOval(
-                                      child: Image.network(authProvider.auth.currentUser!.photoURL ?? "", fit: BoxFit.cover,)
+                                  child: GestureDetector(
+                                    onTap: _pickedImage,
+                                    child: CircleAvatar(
+                                      maxRadius: 25,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                        ),
+                                        clipBehavior: Clip.antiAlias,
+                                        child: Image(image: NetworkImage(authProvider.auth.currentUser!.photoURL ?? "")),
+                                      ),
+                                      backgroundColor: Palette.primary,
                                     ),
-                                    backgroundColor: Palette.secondary,
                                   ),
                                 )
                               ],

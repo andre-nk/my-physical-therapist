@@ -62,8 +62,15 @@ class _ChatContactPageState extends State<ChatContactPage> {
                   child: Padding(
                     padding: const EdgeInsets.only(right: 0),
                     child: CircleAvatar(
+                      maxRadius: 25,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                        ),
+                        clipBehavior: Clip.antiAlias,
+                        child: Image(image: NetworkImage(authProvider.auth.currentUser!.photoURL ?? "")),
+                      ),
                       backgroundColor: Palette.primary,
-                      backgroundImage: widget.avatar,
                     ),
                   ),
                 ),
