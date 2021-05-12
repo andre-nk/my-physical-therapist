@@ -21,8 +21,6 @@ class BubbleMessage extends ConsumerWidget {
     DateFormat format2 = new DateFormat("yMd");
     var formattedDate = format.parse(dateTime);
 
-    print(formattedDate);
-
     DateTime globalScheduleToday =
       DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
 
@@ -33,9 +31,7 @@ class BubbleMessage extends ConsumerWidget {
               ", " +
               dateTime.substring(dateTime.length - 5, dateTime.length);
     }
-    
-    // DateFormat format = new DateFormat("dd MMMM yyyy H:m");
-    // print(format.parse(dateTime));
+
 
     return byUser
         ? Padding(

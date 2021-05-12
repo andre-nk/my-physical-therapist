@@ -13,7 +13,7 @@ class ChatServices{
         uid: element.id,
         senderUID: element["senderUID"],
         receiverUID: element["receiverUID"],
-        dateTime: DateFormat("dd MMMM yyyy HH:mm").parse(element["dateTime"]),
+        dateTime: DateFormat("dd MMMM yyyy HH:mm:ss").parse(element["dateTime"]),
         message: element["message"]
       ));
     });
@@ -30,7 +30,7 @@ class ChatServices{
         "receiverUID": receiverUID,
         "senderUID": _auth.currentUser!.uid,
         "message": message,
-        "dateTime": DateFormat("dd MMMM yyyy HH:mm").format(DateTime.now())
+        "dateTime": DateFormat("dd MMMM yyyy HH:mm:ss").format(DateTime.now())
       });
   }
 
@@ -41,19 +41,5 @@ class ChatServices{
       .collection("chats")
       .snapshots()
       .map(_chatListMapper);
-  }
-
-  Stream<Admin> adminUIDGetter (String adminUID){
-    return _firestore
-      .collection("admins")
-      .doc(adminUID)
-      .snapshots()
-      .map((event){
-        return Admin( //TBA FOR PROFILE PICTURE
-          name: event["name"],
-          photoURL: event["photoURL"],
-          uid: event.id,
-        );
-      });
   }
 }

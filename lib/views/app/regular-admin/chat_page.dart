@@ -40,6 +40,8 @@ class _ChatContactPageState extends State<ChatContactPage> {
         final authProvider = watch(authenticationProvider);
         final chatProvider = watch(chatListProvider(widget.userModel.uid));
 
+        print(chatProvider);
+
         return Scaffold(
           appBar: AppBar(
             toolbarHeight: MQuery.height(0.1, context),

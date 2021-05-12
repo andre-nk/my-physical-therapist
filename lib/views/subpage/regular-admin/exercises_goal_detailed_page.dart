@@ -225,9 +225,7 @@ class _ExercisesGoalDetailedPageState extends State<ExercisesGoalDetailedPage> {
                               stream: content,
                               builder: (context, snapshot){
 
-                                print(snapshot.data);
                                 editController.text = snapshot.data ==  null ? "" : snapshot.data!.text;
-                                print(_image);
 
                                 return snapshot.hasData
                                   ? Container(
@@ -384,7 +382,6 @@ class _ExercisesGoalDetailedPageState extends State<ExercisesGoalDetailedPage> {
                                         snapshot.data!.imageURL != ""
                                         ? GestureDetector(
                                             onTap: (){
-                                              print("clc");
                                               setState(() {
                                                 isImageViewActive = true;                     
                                               });

@@ -219,9 +219,7 @@ class _PatientEducationSubPageState extends State<PatientEducationSubPage> {
                               stream: content,
                               builder: (context, snapshot){
 
-                                print(snapshot.data);
                                 editController.text = snapshot.data ==  null ? "" : snapshot.data!.text;
-                                print(_image);
 
                                 return snapshot.hasData
                                   ? Container(
@@ -376,7 +374,6 @@ class _PatientEducationSubPageState extends State<PatientEducationSubPage> {
                                         snapshot.data!.imageURL != ""
                                         ? GestureDetector(
                                             onTap: (){
-                                              print("clc");
                                               setState(() {
                                                 isImageViewActive = true;                     
                                               });

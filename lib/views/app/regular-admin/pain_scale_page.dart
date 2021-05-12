@@ -70,8 +70,6 @@ class _PainScalePageState extends State<PainScalePage> {
 
                   final sliderValues = watch(userScaleProvider(widget.uid));
 
-                  print(sliderValues);
-
                   return sliderValues.when(
                     data: (value){
                       return value.isEmpty

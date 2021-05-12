@@ -66,8 +66,6 @@ class _EventPageState extends State<EventPage> {
 
         _selectedEvents = ValueNotifier(_getEventsForDay(_focusedDay));
 
-        print(_focusedDay);
-
         return Scaffold(
           floatingActionButton: FloatingActionButton(
             backgroundColor: Palette.primary,

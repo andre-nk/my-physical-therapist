@@ -46,8 +46,6 @@ class _UserHomePageState extends State<UserHomePage> {
 
         final userModelGetter = watch(userModelProvider(widget.userModelSimplified.uid));
 
-        print(userModelGetter);
-
         return Scaffold(
           floatingActionButton: FloatingActionButton(
             backgroundColor: Palette.primary,

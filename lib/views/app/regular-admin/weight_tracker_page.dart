@@ -13,8 +13,6 @@ class _WeightTrackerPageState extends State<WeightTrackerPage> {
 
         final weightValuesProvider = watch(weightTrackerProvider);
 
-        print(weightValuesProvider);
-
         return weightValuesProvider.when(
           data: (value){
 

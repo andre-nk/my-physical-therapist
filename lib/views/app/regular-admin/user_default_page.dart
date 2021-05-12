@@ -50,14 +50,14 @@ class _DefaultPageState extends State<UserDefaultPage> {
             children: <Widget>[
               UserHomePage(userModelSimplified: widget.userModelSimplified),
               UserPatientEducationPage(userModelSimplified: widget.userModelSimplified),
-              UserHomePage(userModelSimplified: widget.userModelSimplified),
+              ExercisesPage(widget.userModelSimplified),
               UserGoalPage(widget.userModelSimplified),
               ChatContactPage(userModel: widget.userModelSimplified),
             ],
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: _selectedIndex == 2 ? Palette.primary : Colors.white,
+          backgroundColor: Colors.white,
           type: BottomNavigationBarType.fixed,
           currentIndex: _selectedIndex,
           onTap: onTabTapped,
@@ -77,7 +77,7 @@ class _DefaultPageState extends State<UserDefaultPage> {
             BottomNavigationBarItem(
               label: "a", 
               icon: Icon(MyPhysicalTherapist.barbell_outlined, color: Palette.secondary, size: 28),
-              activeIcon: Icon(MyPhysicalTherapist.barbell_filled, color: Colors.white, size: 28)
+              activeIcon: Icon(MyPhysicalTherapist.barbell_filled, color: Palette.primary, size: 28)
             ),
             BottomNavigationBarItem(
               label: "a", 

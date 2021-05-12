@@ -4,7 +4,7 @@ class ExerciseTile extends StatelessWidget {
   final bool isCompleted;
   final String title;
   final String imageURL;
-  final int set;
+  final int sets;
   final int reps;
   final int rest;
   final void Function() callback;
@@ -13,7 +13,7 @@ class ExerciseTile extends StatelessWidget {
     required this.isCompleted,
     required this.title,
     required this.imageURL,
-    required this.set,
+    required this.sets,
     required this.reps,
     required this.rest,
     required this.callback
@@ -70,8 +70,8 @@ class ExerciseTile extends StatelessWidget {
                             errorBuilder: (context, _, __) {
                               return Container(color: Palette.primary);
                             },
-                            image: NetworkImage(imageURL),
-                            fit: BoxFit.fill
+                            image: NetworkImage(imageURL, scale: 2),
+                            fit: BoxFit.cover,
                           ),
                         ),
                       ),
@@ -94,7 +94,7 @@ class ExerciseTile extends StatelessWidget {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Font.out("sets: $set",
+                                    Font.out("sets: $sets",
                                         fontSize: 14,
                                         fontWeight: FontWeight.normal),
                                     Font.out("reps: $reps",

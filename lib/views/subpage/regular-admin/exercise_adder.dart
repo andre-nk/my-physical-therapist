@@ -1,40 +1,43 @@
-part of '../view.dart';
+part of "../../view.dart";
 
-class EventAdder extends StatefulWidget {
+class ExerciseEditor extends StatefulWidget {
 
+  final String? userUID;
   final String? uid;
   final String? title;
-  final String? description;
-  final String? media;
-  final String? speaker;
-  final DateTime? startTime;
-  final DateTime? endTime;
+  final String? comment;
+  final String? video;
+  final int? reps;
+  final int? sets;
+  final int? rest;
+  final bool? isCompleted;
 
-  EventAdder({this.uid, this.title, this.description, this.media, this.speaker, this.startTime, this.endTime});
+  ExerciseEditor(this.userUID, {this.uid, this.title, this.comment, this.video, this.reps, this.sets, this.rest, this.isCompleted});
 
   @override
-  _EventAdderState createState() => _EventAdderState();
+  _ExerciseEditorState createState() => _ExerciseEditorState();
 }
 
-class _EventAdderState extends State<EventAdder> {
+class _ExerciseEditorState extends State<ExerciseEditor> {
 
   TextEditingController titleController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
-  TextEditingController mediaController = TextEditingController();
-  TextEditingController speakerController = TextEditingController();
-  DateTime startTime = DateTime.now();
-  DateTime endTime = DateTime.now();
-  final format = DateFormat("dd MMMM yyyy HH:mm");
+  TextEditingController commentController = TextEditingController();
+  TextEditingController videoController = TextEditingController();
+  TextEditingController restController = TextEditingController();
+  TextEditingController setsController = TextEditingController();
+  TextEditingController repsController = TextEditingController();
+  bool isCompleted = false;
 
   @override
   void initState() { 
     super.initState();
     titleController.text = widget.title ?? "";
-    descriptionController.text = widget.description ?? "";
-    mediaController.text = widget.media ?? "";
-    speakerController.text = widget.speaker ?? "";
-    startTime = widget.startTime ?? DateTime.now();
-    endTime = widget.endTime ?? DateTime.now();
+    commentController.text = widget.comment ?? "";
+    videoController.text = widget.video == null ? "" : "https://youtu.be/${widget.video}";
+    restController.text = widget.rest == null ? 0.toString() : widget.rest.toString();
+    repsController.text = widget.reps == null ? 0.toString() : widget.reps.toString();
+    setsController.text = widget.sets == null ? 0.toString() : widget.sets.toString();
+    isCompleted = widget.isCompleted == null ? false : widget.isCompleted!;
   }
 
   @override
@@ -49,7 +52,7 @@ class _EventAdderState extends State<EventAdder> {
             Get.back();
           },
         ),
-        title: Font.out("Add new event", fontSize: 20, fontWeight: FontWeight.bold),
+        title: Font.out("Add new exercise", fontSize: 20, fontWeight: FontWeight.bold),
       ),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
@@ -89,13 +92,13 @@ class _EventAdderState extends State<EventAdder> {
                       fontWeight: FontWeight.w600,
                       fontSize: 18,
                       color: Palette.primary),
-                  hintText: "Event's title"
+                  hintText: "Exercise's name"
                 ),
               ),
               SizedBox(height: MQuery.height(0.025, context)),
               TextFormField(
                 maxLines: 5,
-                controller: descriptionController,
+                controller: commentController,
                 cursorColor: Palette.primary,
                 style: Font.style(
                     fontWeight: FontWeight.w600,
@@ -121,12 +124,14 @@ class _EventAdderState extends State<EventAdder> {
                       fontWeight: FontWeight.w600,
                       fontSize: 18,
                       color: Palette.primary),
-                  hintText: "Event's description",
+                  hintText: "Exercise's comment",
                 ),
               ),
               SizedBox(height: MQuery.height(0.025, context)),
               TextFormField(
-                controller: speakerController,
+                maxLines: 1,
+                keyboardType: TextInputType.number,
+                controller: videoController,
                 cursorColor: Palette.primary,
                 style: Font.style(
                     fontWeight: FontWeight.w600,
@@ -152,12 +157,14 @@ class _EventAdderState extends State<EventAdder> {
                       fontWeight: FontWeight.w600,
                       fontSize: 18,
                       color: Palette.primary),
-                  hintText: "Event's speaker / host",
+                  hintText: "Exercise's Video URL (YouTube)",
                 ),
               ),
               SizedBox(height: MQuery.height(0.025, context)),
               TextFormField(
-                controller: mediaController,
+                maxLines: 1,
+                keyboardType: TextInputType.number,
+                controller: repsController,
                 cursorColor: Palette.primary,
                 style: Font.style(
                     fontWeight: FontWeight.w600,
@@ -183,19 +190,20 @@ class _EventAdderState extends State<EventAdder> {
                       fontWeight: FontWeight.w600,
                       fontSize: 18,
                       color: Palette.primary),
-                  hintText: "Event's media",
+                  hintText: "Exercise's reps",
                 ),
               ),
               SizedBox(height: MQuery.height(0.025, context)),
-              Font.out("Event's start time", fontSize: 18, fontWeight: FontWeight.bold),
-              SizedBox(height: MQuery.height(0.0175, context)),
-              DateTimeField(
-                resetIcon: Icon(CupertinoIcons.clear),
+              TextFormField(
+                maxLines: 1,
+                keyboardType: TextInputType.number,
+                controller: setsController,
+                cursorColor: Palette.primary,
                 style: Font.style(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 18,
-                  color: Palette.primary),
-                decoration: InputDecoration(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18,
+                    color: Palette.primary),
+                decoration: new InputDecoration(
                   contentPadding: EdgeInsets.symmetric(
                     vertical: MQuery.width(0.03, context),
                     horizontal: MQuery.width(0.03, context),
@@ -215,46 +223,20 @@ class _EventAdderState extends State<EventAdder> {
                       fontWeight: FontWeight.w600,
                       fontSize: 18,
                       color: Palette.primary),
-                  hintText: widget.startTime != null ? format.format(widget.startTime ?? DateTime.now()) : "Event's start time",
+                  hintText: "Exercise's sets",
                 ),
-                initialValue: startTime,
-                format: format,
-                onShowPicker: (context, currentValue) async {
-                  await showCupertinoModalPopup(
-                      context: context,
-                      builder: (context) {
-                        return BottomSheet(
-                          builder: (context) => Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Container(
-                                constraints: BoxConstraints(maxHeight: 200),
-                                child: CupertinoDatePicker(
-                                  onDateTimeChanged: (DateTime date) {
-                                    startTime = date;
-                                  },
-                                ),
-                              ),
-                              TextButton(onPressed: () => Navigator.pop(context), child: Font.out('Confirm', fontSize: 16)),
-                            ],
-                          ),
-                          onClosing: () {},
-                        );
-                      });
-                  setState(() {});
-                  return startTime;
-                },
               ),
               SizedBox(height: MQuery.height(0.025, context)),
-              Font.out("Event's end time", fontSize: 18, fontWeight: FontWeight.bold),
-              SizedBox(height: MQuery.height(0.0175, context)),
-              DateTimeField(
-                resetIcon: Icon(CupertinoIcons.clear),
+              TextFormField(
+                maxLines: 1,
+                keyboardType: TextInputType.number,
+                controller: restController,
+                cursorColor: Palette.primary,
                 style: Font.style(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 18,
-                  color: Palette.primary),
-                decoration: InputDecoration(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18,
+                    color: Palette.primary),
+                decoration: new InputDecoration(
                   contentPadding: EdgeInsets.symmetric(
                     vertical: MQuery.width(0.03, context),
                     horizontal: MQuery.width(0.03, context),
@@ -274,77 +256,74 @@ class _EventAdderState extends State<EventAdder> {
                       fontWeight: FontWeight.w600,
                       fontSize: 18,
                       color: Palette.primary),
-                  hintText: widget.endTime != null ? format.format(widget.endTime ?? DateTime.now()) : "Event's end time",
+                  hintText: "Exercise's rest",
                 ),
-                initialValue: endTime,
-                format: format,
-                onShowPicker: (context, currentValue) async {
-                  await showCupertinoModalPopup(
-                      context: context,
-                      builder: (context) {
-                        return BottomSheet(
-                          builder: (context) => Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Container(
-                                constraints: BoxConstraints(maxHeight: 200),
-                                child: CupertinoDatePicker(
-                                  onDateTimeChanged: (DateTime date) {
-                                    endTime = date;
-                                  },
-                                ),
-                              ),
-                              TextButton(onPressed: () => Navigator.pop(context), child: Font.out('Confirm', fontSize: 16)),
-                            ],
-                          ),
-                          onClosing: () {},
-                        );
-                      });
-                  setState(() {});
-                  return endTime;
-                },
               ),
+              SizedBox(height: MQuery.height(0.025, context)),
+              widget.title == null ? Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Font.out(
+                    "Exercise Completed?",
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18,
+                    color: Palette.primary
+                  ),
+                  Switch(
+                    activeColor: Palette.primary,
+                    activeTrackColor: Palette.secondary,
+                    inactiveThumbColor: Palette.primary,
+                    inactiveTrackColor: Palette.minorTextColor,
+                    value: isCompleted,
+                    onChanged: (value){
+                      setState(() {
+                        isCompleted = value;                        
+                      });
+                    },
+                  )
+                ],
+              ) : SizedBox(),
               SizedBox(height: MQuery.height(0.05, context)),
               Consumer(
                 builder: (context, watch, _){
                   return Button(
                     width: double.infinity,
                     method: (){
-                      if(titleController.text != "" && descriptionController.text != ""
-                        && mediaController.text != "" && speakerController.text != ""
-                      ){
-                        if(widget.title != null){
-                          watch(eventUpdaterProvider(
-                            EventModel(
-                              uid: widget.uid ?? "",
-                              end: endTime,
-                              start: startTime,
-                              speaker: speakerController.text,
-                              media: mediaController.text,
-                              title: titleController.text,
-                              description: descriptionController.text
-                            )
-                          ));
-                        } else {
-                          watch(eventAdderProvider(
-                            EventModel(
-                              uid: "",
-                              end: endTime,
-                              start: startTime,
-                              speaker: speakerController.text,
-                              media: mediaController.text,
-                              title: titleController.text,
-                              description: descriptionController.text
-                            )
-                          ));
+                      if(titleController.text != "" && videoController.text != ""){
+                        if(widget.title == null){
+                          watch(exercisesServiceProvider).addExercise(
+                            uid: widget.userUID ?? "",
+                            isCompleted: isCompleted,
+                            videoURL: videoController.text,
+                            comment: commentController.text,
+                            rest: restController.text == "" ? 0 : int.parse(restController.text),
+                            reps: repsController.text == "" ? 0 : int.parse(repsController.text),
+                            sets: setsController.text == "" ? 0 : int.parse(setsController.text),
+                            title: titleController.text
+                          );
+
+                          Get.back();
+                        } else {  
+                          watch(exercisesServiceProvider).updateExercise(
+                            uid: widget.userUID ?? "",
+                            id: widget.uid ?? "",
+                            isCompleted: widget.isCompleted ?? false,
+                            videoURL: videoController.text,
+                            comment: commentController.text,
+                            rest: restController.text == "" ? 0 : int.parse(restController.text),
+                            reps: repsController.text == "" ? 0 : int.parse(repsController.text),
+                            sets: setsController.text == "" ? 0 : int.parse(setsController.text),
+                            title: titleController.text
+                          );
+
+                          Get.back();
                         }
-                        Get.back();
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             backgroundColor: Palette.alert,
                             content: Font.out(
-                              "Please fill out all the forms above",
+                              "Please fill out the necessary forms above",
                               fontSize: 14,
                               fontWeight: FontWeight.bold
                             ),
@@ -352,7 +331,7 @@ class _EventAdderState extends State<EventAdder> {
                         );
                       }
                     },
-                    title: widget.title != null ? "Edit event" : "Add event",
+                    title: widget.title != null ? "Edit exercise" : "Add exercise",
                     color: Palette.primary,
                   );
                 },

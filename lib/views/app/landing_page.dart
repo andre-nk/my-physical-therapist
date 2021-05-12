@@ -109,6 +109,23 @@ class _LandingPageState extends State<LandingPage> {
 
       final String uid = authProvider.auth.currentUser!.uid;
 
+      if(_image != null){
+        watch(uploadAdminPhoto(_image ?? File(""))).whenData((value){
+          setState(() {
+            _profilePictureURL = value;            
+          });
+        });
+
+        authProvider.updateProfilePicture(
+          authProvider.auth.currentUser!,
+          _profilePictureURL ?? ""
+        ).then((value) async {
+          await adminDataProvider.createAdminData(
+            name: authProvider.auth.currentUser?.displayName ?? authProvider.auth.currentUser?.email ?? ""
+          );
+        });      
+      }
+
       firestoreProvider
         .collection('admins')
         .doc(uid)
@@ -120,19 +137,6 @@ class _LandingPageState extends State<LandingPage> {
           }
         }
       );
-
-      if(_image != null){
-        watch(uploadAdminPhoto(_image ?? File(""))).whenData((value){
-          setState(() {
-            _profilePictureURL = value;            
-          });
-        });
-
-      authProvider.updateProfilePicture(
-          authProvider.auth.currentUser!,
-          _profilePictureURL ?? ""
-        );      
-      }
 
       return uid == "HKXJ5P3m9qUFCiPZSN96TyMLGoy1"
         ? Scaffold(
@@ -395,9 +399,15 @@ class _LandingPageState extends State<LandingPage> {
                                   child: GestureDetector(
                                     onTap: _pickedImage,
                                     child: CircleAvatar(
-                                      radius: 22.5,
-                                      backgroundImage: NetworkImage(authProvider.auth.currentUser!.photoURL ?? ""),
-                                      backgroundColor: Palette.secondary,
+                                      maxRadius: 25,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                        ),
+                                        clipBehavior: Clip.antiAlias,
+                                        child: Image(image: NetworkImage(authProvider.auth.currentUser!.photoURL ?? "")),
+                                      ),
+                                      backgroundColor: Palette.primary,
                                     ),
                                   ),
                                 )

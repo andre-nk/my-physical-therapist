@@ -63,19 +63,18 @@ class _UserGoalPageState extends State<UserGoalPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Font.out(
-                              "Progress and Goal",
+                              "goal for user:",
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                              fontSize: 24
+                            ),
+                            Font.out(
+                              widget.userModelSimplified.name,
                               fontWeight: FontWeight.w700,
                               color: Colors.white,
                               fontSize: 28,
                               textAlign: TextAlign.start
-                            ),
-                            Font.out(
-                              "track progress, goal and result",
-                              fontWeight: FontWeight.w400,
-                              color: Colors.white,
-                              fontSize: 18,
-                              textAlign: TextAlign.start
-                            ),
+                            )
                           ],
                         ),
                       )

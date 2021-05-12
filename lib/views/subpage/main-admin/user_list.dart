@@ -179,9 +179,6 @@ class _UserListState extends State<UserList> {
                                                                                 title: "Confirm",
                                                                                 color: Palette.primary,
                                                                                 method: (){
-
-                                                                                  print(selectedUserUID);
-
                                                                                   watch(userProvider).updateUserAdminHandler(
                                                                                     selectedUserUID,
                                                                                     adminValue[index].uid
