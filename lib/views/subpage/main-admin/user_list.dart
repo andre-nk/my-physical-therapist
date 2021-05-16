@@ -14,6 +14,14 @@ class _UserListState extends State<UserList> {
         final userModelListProvider = watch(userListProvider);
         final adminModelListProvider = watch(adminListProvider); 
 
+        Admin test = Admin(
+          uid: "",
+          name: "a",
+          photoURL: "b"
+        );
+
+        test.override();
+
         return Scaffold(
           body: SingleChildScrollView(
             child: Container(
@@ -85,6 +93,9 @@ class _UserListState extends State<UserList> {
 
                                         return watch(adminProvider(value[index].adminHandler)).when(
                                           data: (adminData){
+
+                                            print(adminData);
+
                                             return Container(
                                               height: MQuery.height(0.9, context),
                                               width: double.infinity,
@@ -145,6 +156,8 @@ class _UserListState extends State<UserList> {
                                                         data: (adminValue){
 
                                                           adminValue.removeWhere((element) => element.uid == "HKXJ5P3m9qUFCiPZSN96TyMLGoy1");
+                                                          
+                                                          print(adminValue.last.photoURL);
 
                                                           return Container(
                                                             height: MQuery.height(0.25, context),
@@ -154,8 +167,23 @@ class _UserListState extends State<UserList> {
                                                               separatorBuilder: (context, index){
                                                                 return Divider();
                                                               },
-                                                              itemBuilder: (context, index){
+                                                              itemBuilder: (context, innerIndex){
                                                                 return ListTile(
+                                                                  contentPadding: EdgeInsets.symmetric(
+                                                                    vertical: MQuery.height(0.01, context)
+                                                                  ),
+                                                                  leading: Padding(
+                                                                    padding: const EdgeInsets.only(right: 8.0),
+                                                                    child: CircleAvatar(
+                                                                      backgroundColor: Palette.primary,
+                                                                      backgroundImage: NetworkImage(adminValue[innerIndex].photoURL),
+                                                                    ),
+                                                                  ),
+                                                                  title: Font.out(
+                                                                    adminValue[innerIndex].name,
+                                                                    fontSize: 18, fontWeight: FontWeight.w600, textAlign: TextAlign.left
+                                                                  ),
+                                                                  trailing: Icon(CupertinoIcons.chevron_right),
                                                                   onTap: (){
                                                                     Get.dialog(
                                                                       Dialog(
@@ -168,7 +196,7 @@ class _UserListState extends State<UserList> {
                                                                             mainAxisAlignment: MainAxisAlignment.center,
                                                                             children:[
                                                                               Font.out(
-                                                                                "Change admin handler for ${value[index].name} to ${adminValue[index].name}?",
+                                                                                "Change admin handler for ${adminData.name} to ${adminValue[innerIndex].name}?",
                                                                                 fontSize: 18,
                                                                                 fontWeight: FontWeight.bold,
                                                                                 color: Palette.primary
@@ -181,7 +209,7 @@ class _UserListState extends State<UserList> {
                                                                                 method: (){
                                                                                   watch(userProvider).updateUserAdminHandler(
                                                                                     selectedUserUID,
-                                                                                    adminValue[index].uid
+                                                                                    adminValue[innerIndex].uid
                                                                                   );
                                                                                   Get.back();
                                                                                 },
@@ -192,23 +220,6 @@ class _UserListState extends State<UserList> {
                                                                       )
                                                                     );
                                                                   },
-                                                                  contentPadding: EdgeInsets.symmetric(
-                                                                    vertical: MQuery.height(0.01, context)
-                                                                  ),
-                                                                  leading: Padding(
-                                                                    padding: const EdgeInsets.only(right: 8.0),
-                                                                    child: CircleAvatar(
-                                                                      backgroundColor: Palette.primary,
-                                                                      backgroundImage: NetworkImage(adminValue[index].photoURL),
-                                                                    ),
-                                                                  ),
-                                                                  title: Font.out(
-                                                                    value[index].name.length >= 34
-                                                                      ? adminValue[index].name.substring(0, 31) + "..."
-                                                                      : adminValue[index].name,
-                                                                    fontSize: 18, fontWeight: FontWeight.w600, textAlign: TextAlign.left
-                                                                  ),
-                                                                  trailing: Icon(CupertinoIcons.chevron_right)
                                                                 );
                                                               },
                                                             ),
@@ -241,9 +252,7 @@ class _UserListState extends State<UserList> {
                                   ),
                                 ),
                                 title: Font.out(
-                                  value[index].name.length >= 34
-                                    ? value[index].name.substring(0, 31) + "..."
-                                    : value[index].name,
+                                  value[index].name,
                                   fontSize: 18, fontWeight: FontWeight.w600, textAlign: TextAlign.left
                                 ),
                                 trailing: Icon(CupertinoIcons.chevron_right)

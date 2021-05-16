@@ -138,6 +138,8 @@ class _LandingPageState extends State<LandingPage> {
         }
       );
 
+      print(userModelListProvider);
+
       return uid == "HKXJ5P3m9qUFCiPZSN96TyMLGoy1"
         ? Scaffold(
             key: _drawerKey,

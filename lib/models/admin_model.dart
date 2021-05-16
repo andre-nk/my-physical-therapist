@@ -10,4 +10,8 @@ class Admin{
     this.uid = uid;
     this.photoURL = photoURL;
   }
+
+  void override(){
+    this.photoURL = "";
+  }
 }
