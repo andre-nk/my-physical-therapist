@@ -43,8 +43,22 @@
 		<false/>
 		<key>UIStatusBarHidden</key>
 		<false/>
-		<key>NSPhotoLibraryUsageDescription</key> <!--TBA ???-->
-		<key>NSCameraUsageDescription</key>
-		<key>NSMicrophoneUsageDescription</key>
+        <key>CFBundleURLTypes</key>
+            <array>
+                <dict>
+                    <key>CFBundleTypeRole</key>
+                    <string>Editor</string>
+                    <key>CFBundleURLSchemes</key>
+                    <array>
+                        <string>com.googleusercontent.apps.250491957782-sk6hictq8o37nangv7g5823bbr7v7qmn</string>
+                    </array>
+                </dict>
+            </array>
+            <key>NSPhotoLibraryUsageDescription</key>
+            <string>This app accesses photo gallery for profile image</string>
+            <key>NSCameraUsageDescription</key>
+            <string>This app uses camera for taking profile image</string>
+            <key>NSMicrophoneUsageDescription</key>
+            <string>This app needs microphone for video capture</string>
 	</dict>
 </plist>
